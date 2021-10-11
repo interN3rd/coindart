@@ -1,4 +1,5 @@
 # coindart - Hit Bull's Eye With Your Next Trade
+Dieses Softwareprojekt wurde erstellt im Rahmen des Moduls "Mobile Systeme", welches im Wintersemester 2021 / 2022 angeboten wurde in der Fachhochschule Kiel. Autoren des Softwareprojekts: Alexander Neumann und Pascal Groß.
 
 ## Einführung
 Die mobile App Coindart bietet ihren Nutzern wichtige Daten und Informationen über den Markt der Kryptowährungen. Der Benutzer erhält eine Übersicht über die meistgehandelten Kryptowährungen und kann das Marktgeschehen live mitverfolgen. Darüber hinaus kann der Benutzer sich in der App registrieren, anmelden und sich mit anderen Benutzern austauschen, um den nächsten gewinnbringen Trade zu planen.
