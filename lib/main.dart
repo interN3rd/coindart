@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp( const Coindart() );
+void main() {
+
+  runApp( MaterialApp(
+    title: "Coindart",
+    initialRoute: "/",
+    routes: {
+      "/": ( context ) => const Coindart(),
+      "/contact": ( context ) => const Contact(),
+      "/imprint": ( context ) => const Imprint(),
+    },
+  ),
+  );
+}
 
 class Coindart extends StatelessWidget {
 
-  const Coindart( {Key? key} ) : super( key: key);
+  const Coindart( { Key? key } ) : super( key: key );
 
   @override
   Widget build( BuildContext context ) {
@@ -86,9 +98,129 @@ class Coindart extends StatelessWidget {
                       )
 
                     ]
+                  ),
+
+                  const Spacer(),
+                  Row(
+
+                      mainAxisAlignment: MainAxisAlignment.start,
+
+                      children: <Widget> [
+
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed( context, "/contact" );
+                          },
+                          child: const Text(
+                              "Contact",
+                              style: TextStyle(
+
+                                  color: Colors.white10
+                          ))
+                      ),
+
+                        const SizedBox( width: 50),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed( context, "/imprint" );
+                        },
+                        child: const Text(
+                            "Imprint",
+                            style: TextStyle(
+                                color: Colors.white10
+                        ))
+                      )
+                    ]
                   )
                 ]
       ) ) ) ) );
+  }
+}
+
+class Contact extends StatelessWidget {
+
+  const Contact( { Key? key } ) : super( key: key );
+
+  @override
+  Widget build( BuildContext context ) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+
+        title: const Text( "CoinDart - Contact")
+      ),
+
+      body: Center(
+        child: ElevatedButton(
+
+    onPressed: () {
+
+      Navigator.pop( context );
+
+      },
+
+    child: const Text( "Go back!"),
+      )
+    ));
+  }
+}
+
+class Imprint extends StatelessWidget {
+
+  const Imprint( { Key? key } ) : super( key: key );
+
+  @override
+  Widget build( BuildContext context ) {
+
+    return Scaffold(
+
+      backgroundColor: Colors.white12,
+
+        appBar: AppBar(
+
+            backgroundColor: Colors.deepPurple,
+            title: const Text( "Imprint"),
+        ),
+
+      body: Container(
+
+        padding: const EdgeInsets.all( 30 ),
+
+        child: Expanded(
+
+          child: Column(
+
+            children: const <Widget> [
+
+              Text(
+                "This software project was carefully crafted by Fachhochschule Kiel students Alexander Neumann and Pascal Groß. For legal inquiries please send a letter to",
+              textAlign: TextAlign.justify,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17
+                  ),
+              ),
+
+              Divider(),
+
+              Text("CoinDart AG GmbH MfG" "\n"
+                    "CoinDart Ave No. 1" "\n"
+                    "12345 CoinDartropolis" "\n"
+                    "United Darts of Coins" "\n"
+                    "\n"
+                    "Our legal team will surely and truthfully shred all received documents.",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
