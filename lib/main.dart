@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp( Coindart() );
+void main() => runApp( const Coindart() );
 
 class Coindart extends StatelessWidget {
 
@@ -9,9 +9,14 @@ class Coindart extends StatelessWidget {
   @override
   Widget build( BuildContext context ) {
 
-    const appTitle = "Coindart - Your Next Bull's Eye Trade";
+    const appTitle = "CoinDart - Your Next Bull's Eye Trade";
+    // used in AppBar
+
     const welcomeMessage = "Welcome to CoinDart! We provide you every extra bit of information that helps you hitting Bull's Eye with your next trade.";
+    // used on our front page
+
     const loginPrompt = "Please login to your account or register a new one to access the latest crypto charts and your portfolio.";
+    // used on our front page
 
     return MaterialApp(
 
@@ -36,7 +41,7 @@ class Coindart extends StatelessWidget {
 
             child: Column(
 
-                children:  [
+                children:  <Widget> [
 
                   const Text(
                       welcomeMessage,
