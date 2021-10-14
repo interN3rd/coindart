@@ -36,24 +36,52 @@ class Coindart extends StatelessWidget {
 
             child: Column(
 
-                children: const [
-                  
-                  Text(
+                children:  [
+
+                  const Text(
                       welcomeMessage,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 17
                   ) ),
-                  Divider(),
-                  Text(
+                  const Divider(),
+                  const Text(
                     loginPrompt,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17
                     ) ),
-                  Divider(),
+                  const Divider(),
+
+                  Row(
+
+                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: <Widget> [
+
+                      ElevatedButton(
+
+                        child: const Text( "Login" ),
+                        onPressed: null,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple)
+                        )
+                      ),
+
+                      const SizedBox( width: 50),
+
+                      ElevatedButton(
+                        child: const Text( "Register" ),
+                        onPressed: null,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>( Colors.deepPurple )
+                        )
+                      )
+
+                    ]
+                  )
                 ]
       ) ) ) ) );
   }
