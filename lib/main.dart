@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 void main() {
-
-  runApp( MaterialApp(
-    title: "Coindart",
-    initialRoute: "/",
-    routes: {
-      "/": ( context ) => const Coindart(),
-      "/contact": ( context ) => const Contact(),
-      "/imprint": ( context ) => const Imprint(),
-    },
-  ),
+  runApp(
+    MaterialApp(
+      title: "Coindart",
+      /// routing reference: https://flutter.dev/docs/cookbook/navigation/named-routes
+      initialRoute: "/",
+      routes: {
+        "/": ( context ) => const Coindart(),
+        "/contact": ( context ) => const Contact(),
+        "/imprint": ( context ) => const Imprint(),
+      },
+    ),
   );
 }
 
@@ -107,7 +108,8 @@ class Coindart extends StatelessWidget {
 
                       children: <Widget> [
 
-                        ElevatedButton(
+                        TextButton(
+
                           onPressed: () {
                             Navigator.pushNamed( context, "/contact" );
                           },
@@ -115,20 +117,20 @@ class Coindart extends StatelessWidget {
                               "Contact",
                               style: TextStyle(
 
-                                  color: Colors.white10
+                                  color: Colors.deepPurple
                           ))
                       ),
 
                         const SizedBox( width: 50),
 
-                      ElevatedButton(
+                      TextButton(
                         onPressed: () {
                           Navigator.pushNamed( context, "/imprint" );
                         },
                         child: const Text(
                             "Imprint",
                             style: TextStyle(
-                                color: Colors.white10
+                                color: Colors.deepPurple
                         ))
                       )
                     ]
