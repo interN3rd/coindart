@@ -10,21 +10,52 @@ class Coindart extends StatelessWidget {
   Widget build( BuildContext context ) {
 
     const appTitle = "Coindart - Your Next Bull's Eye Trade";
+    const welcomeMessage = "Welcome to CoinDart! We provide you every extra bit of information that helps you hitting Bull's Eye with your next trade.";
+    const loginPrompt = "Please login to your account or register a new one to access the latest crypto charts and your portfolio.";
 
     return MaterialApp(
+
       title: appTitle,
 
       home: Scaffold(
+
         backgroundColor: Colors.white12,
 
         appBar: AppBar(
+
           backgroundColor: Colors.deepPurple,
           title: const Text( appTitle )
+
         ),
 
-        body: const Login(),
-        ),
-      );
+        body: Container(
+
+            padding: const EdgeInsets.all( 30 ),
+
+          child: Expanded(
+
+            child: Column(
+
+                children: const [
+                  
+                  Text(
+                      welcomeMessage,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17
+                  ) ),
+                  Divider(),
+                  Text(
+                    loginPrompt,
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17
+                    ) ),
+                  Divider(),
+                ]
+      ) ) ) ) );
   }
 }
 
