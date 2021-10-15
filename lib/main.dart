@@ -84,7 +84,8 @@ class Coindart extends StatelessWidget {
                         child: const Text( "Login" ),
                         onPressed: null,
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple)
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
+                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                         )
                       ),
 
@@ -94,7 +95,8 @@ class Coindart extends StatelessWidget {
                         child: const Text( "Register" ),
                         onPressed: null,
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>( Colors.deepPurple )
+                          backgroundColor: MaterialStateProperty.all<Color>( Colors.deepPurple ),
+                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                         )
                       )
 
