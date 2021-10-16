@@ -1,6 +1,20 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
+import "package:flutter_form_builder/flutter_form_builder.dart";
 
 void main() => runApp(const Coindart());
+
+/// to prevent typos. Please use "Routes.<name of route>" to link different
+/// widgets/screens. And, of course, add any new route to this class before
+/// its use in any widget
+class Routes {
+
+  static const coindart = "/";
+  static const login = "/login";
+  static const register = "/register";
+  static const contact = "/contact";
+  static const imprint = "/imprint";
+
+}
 
 class Coindart extends StatelessWidget {
 
@@ -23,7 +37,7 @@ class Coindart extends StatelessWidget {
         title: "Coindart",
         /// routing reference: https://flutter.dev/docs/cookbook/navigation/named-routes
         routes: {
-          "/contact": ( context ) => const Contact(),
+          "/contact": ( context ) => Contact(),
           "/imprint": ( context ) => const Imprint(),
           "/login": ( context ) => const Login(),
           "/register": ( context ) => const Register(),
@@ -116,7 +130,7 @@ class Coindart extends StatelessWidget {
                       TextButton(
 
                         onPressed: () {
-                          Navigator.pushNamed( context, "/contact" );
+                          Navigator.pushNamed( context, Routes.contact );
                         },
                         child: const Text(
                             "Contact",
@@ -147,7 +161,8 @@ class Coindart extends StatelessWidget {
 
 class Contact extends StatelessWidget {
 
-  const Contact( { Key? key } ) : super( key: key );
+  /// the _formKey allows to view, modify and process form data and its state
+  final _formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build( BuildContext context ) {
@@ -159,18 +174,45 @@ class Contact extends StatelessWidget {
         title: const Text( "CoinDart - Contact")
       ),
 
-      body: Center(
-        child: ElevatedButton(
+      body: FormBuilder(
+        key: _formKey,
+        child: Column(
+          children: [
 
-    onPressed: () {
+            /// the value of name is used to reference this textfield
+            FormBuilderTextField( name: "name" ),
 
-      Navigator.pop( context );
+            Row(
+              children: [
+                ElevatedButton(
 
-      },
+                    onPressed: () {
+                      /// tapping the button "Reset form" does two things:
+                      _formKey.currentState!.reset();
+                      /// deletes all input
+                      FocusScope.of( context ).unfocus();
+                      /// makes the user's keyboard disappear
+                    },
+                    child: const Text( "Reset form")
 
-    child: const Text( "Go back!"),
-      )
-    ));
+                ),
+
+                const SizedBox( width: 50),
+
+                ElevatedButton(
+
+                    onPressed: () {},
+                    child: const Text( "Submit")
+
+                ),
+              ],
+            ),
+          ],
+        ),
+
+        autovalidateMode: AutovalidateMode.always,
+      ),
+    );
   }
 }
 
