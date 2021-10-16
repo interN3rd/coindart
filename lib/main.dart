@@ -13,6 +13,7 @@ class Routes {
   static const register = "/register";
   static const contact = "/contact";
   static const imprint = "/imprint";
+  static const coinlist = "/coinlist";
 
 }
 
@@ -41,6 +42,7 @@ class Coindart extends StatelessWidget {
           "/imprint": ( context ) => const Imprint(),
           "/login": ( context ) => const Login(),
           "/register": ( context ) => const Register(),
+          "/coinlist": ( context ) => Coinlist(),
         },
         theme: ThemeData(
           primaryColor: Colors.deepPurple,
@@ -49,6 +51,10 @@ class Coindart extends StatelessWidget {
               backgroundColor: Colors.deepPurple,
               foregroundColor: Colors.white,
               centerTitle: true
+          ),
+          textTheme: const TextTheme(
+            bodyText1: TextStyle( color: Colors.white ),
+            subtitle1: TextStyle( color: Colors.white ),
           ),
         ),
 
@@ -302,6 +308,9 @@ class LoginForm extends StatefulWidget {
 
 class _LoginState extends State<LoginForm> {
 
+  static const username = "mob";
+  static const password = "bom";
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -349,7 +358,15 @@ class _LoginState extends State<LoginForm> {
                 onPressed: () {
                   if( _formKey.currentState!.validate() ) {
                     ScaffoldMessenger.of( context ).showSnackBar(
-                      const SnackBar( content: Text( "Eingabe wird verarbeitet") ),
+                      const SnackBar( content: Text( "Your input is being processed") ),
+                    );
+                  }
+
+                  if( username == "mob" && password == "bom" ) {
+
+                    Navigator.pushNamed( context, Routes.coinlist );
+                    ScaffoldMessenger.of( context ).showSnackBar(
+                      const SnackBar( content: Text( "You are now logged in.") ),
                     );
                   }
                 },
@@ -378,5 +395,62 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+}
+
+class Coinlist extends StatelessWidget {
+
+  final List<String> coins = <String>[
+      "Bitcoin",
+      "Etherum",
+      "Binance Coin",
+      "Cardano",
+      "Tether",
+      "XRP",
+      "Solana",
+      "Polkadot",
+      "USD Coin",
+      "Dogecoin",
+      "Uniswap",
+      "Terra",
+      "Wrapped Bitcoin",
+      "Litecoin",
+      "Binance USD",
+      "Chainlink",
+      "Avalanche",
+      "Bitcoin Cash",
+      "Algorand",
+      "Polygon",
+      "SHUBA INU",
+      "Stellar",
+      "Internet Computer",
+      "VeChain",
+      "Axie Infinity" ];
+
+  @override
+  Widget build( BuildContext context ) {
+
+    return Scaffold(
+
+
+      appBar: AppBar(
+
+        title: const Text( "Available Coins"),
+      ),
+
+      body: Container(
+
+        padding: const EdgeInsets.all( 30 ),
+
+        child: ListView.builder(
+            itemCount: coins.length,
+            itemBuilder: ( context, index ) {
+              return ListTile(
+                title: Text( coins[index] ),
+              );
+            },
+          ),
+        ),
+      );
   }
 }
