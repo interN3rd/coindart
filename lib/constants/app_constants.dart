@@ -9,4 +9,6 @@ class AppConstants {
   static const loginPrompt = "Please login to your account or register a new one to access the latest crypto charts and your portfolio.";
   // used on our front page
 
+  static const registerPrompt = "By registering a new account you agree to our terms of service.";
+
 }
