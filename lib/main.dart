@@ -9,7 +9,7 @@ void main() async {
   // actually working reference: https://github.com/FirebaseExtended/flutterfire/issues/3384
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp( Coindart() );
+  runApp( const Coindart() );
 
 }
 
