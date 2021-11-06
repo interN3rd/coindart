@@ -110,41 +110,47 @@ class _RegisterState extends State<Register> {
                           setState( () {
                             isLoading = true;
                         });
-                        try {
-                          CollectionReference users = FirebaseFirestore.instance.collection('user');
 
-                          users.add( {'name': username,'password': password} );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                        backgroundColor: Colors.blueGrey,
-                        content: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                        "Successfully registered. You can now login."
-                        ),
-                        ),duration: Duration(seconds: 5),
-                        ),
-                        );
-    } on FirebaseAuthException catch( e ) {
-                            showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-    title:
-        const Text( "Oops! Registration failed."),
-    content: Text( "${e.message}"),
-    actions: [
-      TextButton(
-    onPressed: () {
-    Navigator.of(ctx).pop();
-    },
-    child: const Text( "Okay" ),
-    )
-    ],
-    ),
+                          try {
+
+                            CollectionReference users = FirebaseFirestore.instance.collection('user');
+                            users.add( {'name': username,'password': password} );
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+
+                              const SnackBar(
+                                backgroundColor: Colors.blueGrey,
+                                content: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                      "Successfully registered. You can now login."
+                                  ),
+                                ),
+
+                                duration: Duration(seconds: 5),
+                              ),
                             );
-    }
-    setState( () {
-    isLoading = false;
+
+                          } on FirebaseAuthException catch( e ) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title:
+                                const Text( "Oops! Registration failed."),
+                                content: Text( "${e.message}"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                    },
+                                    child: const Text( "Okay" ),
+                                )
+                              ],
+                            ),
+                            );
+                          }
+                          setState( () {
+                            isLoading = false;
                         });
                         }
                         },
@@ -156,38 +162,6 @@ class _RegisterState extends State<Register> {
               ],
             ),
           ),
-      ),
-    );
-  }
-}
-
-class AddUser extends StatelessWidget {
-
-  final String name;
-  final String password;
-
-  const AddUser(this.name, this.password);
-
-  @override
-  Widget build(BuildContext context) {
-    // Create a CollectionReference called users that references the firestore collection
-    CollectionReference users = FirebaseFirestore.instance.collection('user');
-
-    Future<void> addUser() {
-      // Call the user's CollectionReference to add a new user
-      return users
-          .add({
-        'name': name,
-        'password': password
-      })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-
-    return TextButton(
-      onPressed: addUser,
-      child: const Text(
-        "Add User",
       ),
     );
   }
