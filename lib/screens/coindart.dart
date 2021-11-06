@@ -1,10 +1,25 @@
-import 'package:coindart/constants/app_constants.dart';
 import "package:flutter/material.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import 'package:coindart/constants/app_constants.dart';
 import '../config/routes/routes.dart';
 
-class Coindart extends StatelessWidget {
+class Coindart extends StatefulWidget {
 
-  const Coindart( { Key? key } ) : super( key: key );
+  const Coindart({Key? key}) : super(key: key);
+
+  @override
+  _CoindartState createState() => _CoindartState();
+
+}
+
+final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+_signOut() async {
+
+  await _firebaseAuth.signOut();
+}
+
+class _CoindartState extends State<Coindart> {
 
   @override
   Widget build( BuildContext context ) {
@@ -63,9 +78,9 @@ class Coindart extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget> [
                                 ElevatedButton(
-                                    child: const Text( "Login" ),
+                                    child: const Text( "Register" ),
                                     onPressed:  () {
-                                      Navigator.pushNamed( context, "/login" );
+                                      Navigator.pushNamed( context, "/register" );
                                     },
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
@@ -74,14 +89,28 @@ class Coindart extends StatelessWidget {
                                 ),
                                 const SizedBox( width: 50),
                                 ElevatedButton(
-                                    child: const Text( "Register" ),
+                                    child: const Text( "Login" ),
                                     onPressed:  () {
-                                      Navigator.pushNamed( context, "/register" );
+                                      Navigator.pushNamed( context, "/login" );
                                     },
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all<Color>( Colors.deepPurple ),
                                       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                                     )
+                                ),
+                                const SizedBox( width: 50 ),
+                                ElevatedButton(
+                                  child: const Text( "Logout" ),
+                                  onPressed: () async {
+                                    await _signOut();
+                                    if( _firebaseAuth.currentUser == null ) {
+                                      Navigator.pushNamed( context, "/login" );
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
+                                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                                  )
                                 )
                               ]
                           ),

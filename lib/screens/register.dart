@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +16,8 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
 
   final formKey = GlobalKey<FormState>();
-  String username = "";
+  final _auth = FirebaseAuth.instance;
+  String email = "";
   String password = "";
   bool isLoading = false;
 
@@ -69,14 +69,14 @@ class _RegisterState extends State<Register> {
                       TextFormField(
                         keyboardType: TextInputType.text,
                         onChanged: ( value ) {
-                          username = value.toString().trim();
+                          email = value.toString().trim();
                         },
-                        validator: (value) => (value!.isEmpty) ? "Please enter an username." : null,
+                        validator: (value) => (value!.isEmpty) ? "Please enter an email." : null,
                         textAlign: TextAlign.center,
                         decoration: AppConstants.kTextFieldDecoration.copyWith(
-                          hintText: "Choose your username.",
+                          hintText: "Enter your email.",
                           prefixIcon: const Icon(
-                            Icons.person,
+                            Icons.email_rounded,
                             color: Colors.white,
                           ),
                         ),
@@ -115,9 +115,7 @@ class _RegisterState extends State<Register> {
                             });
 
                             try {
-
-                            CollectionReference users = FirebaseFirestore.instance.collection('user');
-                            users.add( {'name': username,'password': password} );
+                              await _auth.createUserWithEmailAndPassword(email: email, password: password);
 
                             ScaffoldMessenger.of(context).showSnackBar(
 
