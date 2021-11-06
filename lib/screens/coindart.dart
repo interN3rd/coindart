@@ -27,8 +27,10 @@ class Coindart extends StatelessWidget {
           ),
 
           textTheme: const TextTheme(
-            bodyText1: TextStyle( color: Colors.white ),
             subtitle1: TextStyle( color: Colors.white ),
+            subtitle2: TextStyle( color: Colors.white ),
+            bodyText1: TextStyle( color: Colors.white ),
+            bodyText2: TextStyle( color: Colors.white ),
           ),
         ),
 
