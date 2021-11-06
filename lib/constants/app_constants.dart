@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppConstants {
 
   static const appTitle = "CoinDart - Your Next Bull's Eye Trade";
@@ -10,5 +12,22 @@ class AppConstants {
   // used on our front page
 
   static const registerPrompt = "By registering a new account you agree to our terms of service.";
+
+  static const kTextFieldDecoration = InputDecoration(
+    hintText: 'Enter a value',
+    hintStyle: TextStyle(color: Colors.grey),
+    contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(7)),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.deepPurple, width: 1.0),
+      borderRadius: BorderRadius.all(Radius.circular(7.0)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.deepPurple, width: 1.5),
+      borderRadius: BorderRadius.all(Radius.circular(7)),
+    ),
+  );
 
 }

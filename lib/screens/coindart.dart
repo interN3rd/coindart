@@ -1,7 +1,5 @@
 import 'package:coindart/constants/app_constants.dart';
 import "package:flutter/material.dart";
-
-import '../main.dart';
 import '../config/routes/routes.dart';
 
 class Coindart extends StatelessWidget {
@@ -64,7 +62,6 @@ class Coindart extends StatelessWidget {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget> [
-                                const AddUser("Gunner"),
                                 ElevatedButton(
                                     child: const Text( "Login" ),
                                     onPressed:  () {
