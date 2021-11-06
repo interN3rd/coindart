@@ -11,6 +11,7 @@ class Register extends StatefulWidget {
 
   @override
   _RegisterState createState() => _RegisterState();
+
 }
 
 class _RegisterState extends State<Register> {
@@ -28,7 +29,6 @@ class _RegisterState extends State<Register> {
       backgroundColor: Colors.white12,
 
       appBar: AppBar(
-
         title: const Text( "Register"),
         leading: IconButton(
           icon: const Icon( Icons.arrow_back_ios_new, color: Colors.green, size: 30, ),
@@ -36,44 +36,42 @@ class _RegisterState extends State<Register> {
         ),
       ),
 
-      body: isLoading
-        ? const Center(
-        child: CircularProgressIndicator(),
-      )
-      : Form(
+      body: isLoading ? const Center( child: CircularProgressIndicator() ) : Form(
         key: formKey,
-          child: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.light,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: SingleChildScrollView(
-                    padding:
-                      const EdgeInsets.symmetric( horizontal: 25, vertical: 120),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Hero(
-                          tag: "1",
-                          child: Text(
-                            "Register a new account",
-                            style: TextStyle(
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: Stack(
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: SingleChildScrollView(
+                  padding:
+                  const EdgeInsets.symmetric( horizontal: 25, vertical: 120),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      const Hero(
+                        tag: "1",
+                        child: Text(
+                          "Register a new account",
+                          style: TextStyle(
                               fontSize: 30,
                               color: Colors.white,
-                              fontWeight: FontWeight.bold ),
-                            ),
+                              fontWeight: FontWeight.bold
                           ),
-                      SizedBox( height: 30 ),
+                        ),
+                      ),
+
+                      const SizedBox( height: 30 ),
+
                       TextFormField(
                         keyboardType: TextInputType.text,
                         onChanged: ( value ) {
                           username = value.toString().trim();
                         },
-                        validator: (value) => (value!.isEmpty)
-                          ? "Please enter an username."
-                          : null,
+                        validator: (value) => (value!.isEmpty) ? "Please enter an username." : null,
                         textAlign: TextAlign.center,
                         decoration: AppConstants.kTextFieldDecoration.copyWith(
                           hintText: "Choose your username.",
@@ -83,35 +81,40 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                       ),
-                        const SizedBox( height: 30 ),
-                        TextFormField(
-                          obscureText: true,
-                          validator: ( value ) {
-                            if( value!.isEmpty ) {
-                              return "Please enter a Password.";
-                            }
-                          },
-                          onChanged: ( value ) {
-                            password = value;
-                          },
-                          textAlign: TextAlign.center,
-                          decoration: AppConstants.kTextFieldDecoration.copyWith(
+
+                      const SizedBox( height: 30 ),
+
+                      TextFormField(
+                        obscureText: true,
+                        validator: ( value ) {
+                          if( value!.isEmpty ) {
+                            return "Please enter a Password.";
+                          }
+                        },
+                        onChanged: ( value ) {
+                          password = value;
+                        },
+                        textAlign: TextAlign.center,
+                        decoration: AppConstants.kTextFieldDecoration.copyWith(
                             hintText: "Choose a password.",
                             prefixIcon: const Icon(
                               Icons.lock,
                               color: Colors.white,
-                            )),
-                          ),
-                    const SizedBox( height: 80 ),
-                    LoginSignupButton(
-                      title: "Register",
-                      ontapp: () async {
-                        if( formKey.currentState!.validate() ) {
-                          setState( () {
-                            isLoading = true;
-                        });
+                            ),
+                        ),
+                      ),
 
-                          try {
+                      const SizedBox( height: 80 ),
+
+                      LoginSignupButton(
+                        title: "Register",
+                        ontapp: () async {
+                          if( formKey.currentState!.validate() ) {
+                            setState( () {
+                              isLoading = true;
+                            });
+
+                            try {
 
                             CollectionReference users = FirebaseFirestore.instance.collection('user');
                             users.add( {'name': username,'password': password} );
@@ -142,26 +145,26 @@ class _RegisterState extends State<Register> {
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(ctx).pop();
-                                    },
+                                      },
                                     child: const Text( "Okay" ),
-                                )
-                              ],
-                            ),
+                                  )
+                                ],
+                              ),
                             );
+                            }
+                            setState( () {
+                              isLoading = false;
+                            });
                           }
-                          setState( () {
-                            isLoading = false;
-                        });
-                        }
-                        },
-                    ),
-                      ],
-                    ),
+                          },
+                      ),
+                    ],
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
+        ),
       ),
     );
   }
