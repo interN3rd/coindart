@@ -17,6 +17,7 @@ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 _signOut() async {
 
   await _firebaseAuth.signOut();
+
 }
 
 class _CoindartState extends State<Coindart> {
@@ -125,11 +126,11 @@ class _CoindartState extends State<Coindart> {
                                     child: const Text(
                                         "Contact",
                                         style: TextStyle(
-                                            color: Colors.deepPurple
+                                            color: Colors.deepPurpleAccent
                                         )
                                     )
                                 ),
-                                const SizedBox( width: 50),
+                                const SizedBox( width: 30 ),
                                 TextButton(
                                     onPressed: () {
                                       Navigator.pushNamed( context, "/imprint" );
@@ -137,9 +138,21 @@ class _CoindartState extends State<Coindart> {
                                     child: const Text(
                                         "Imprint",
                                         style: TextStyle(
-                                            color: Colors.deepPurple
+                                            color: Colors.deepPurpleAccent
                                         )
                                     )
+                                ),
+                                const SizedBox( width: 30 ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed( context, "/status" );
+                                  },
+                                  child: const Text(
+                                    "Status",
+                                    style: TextStyle(
+                                      color: Colors.grey
+                                    )
+                                  )
                                 )
                               ]
                           )

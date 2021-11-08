@@ -1,5 +1,6 @@
 import 'package:coindart/screens/login.dart';
 import 'package:coindart/screens/register.dart';
+import 'package:coindart/screens/status.dart';
 import 'package:flutter/widgets.dart';
 import 'package:coindart/screens/coinlist.dart';
 import 'package:coindart/screens/contact.dart';
@@ -13,5 +14,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   "/coinlist": ( BuildContext context ) => Coinlist(),
   "/contact": ( BuildContext context ) => Contact(),
   "/imprint": ( BuildContext context ) => const Imprint(),
+  "/status": ( BuildContext context ) => Status(),
 
 };
