@@ -1,4 +1,3 @@
-import 'package:coindart/screens/coindart.dart';
 import 'package:coindart/screens/login.dart';
 import 'package:coindart/screens/register.dart';
 import 'package:coindart/screens/status.dart';
@@ -11,13 +10,12 @@ import 'package:coindart/screens/imprint.dart';
 /// routing reference: https://flutter.dev/docs/cookbook/navigation/named-routes
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
 
-  "/": ( BuildContext context ) => const Coindart(),
   "/login": ( BuildContext context ) => const Login(),
   "/register": ( BuildContext context ) => const Register(),
   "/coinlist": ( BuildContext context ) => const Coinlist(),
   "/favorites": ( BuildContext context ) => const Favorites(),
   "/contact": ( BuildContext context ) => Contact(),
-  "/imprint": ( BuildContext context ) => const Imprint(),
+  "/imprint": ( BuildContext context ) => Imprint(),
   "/status": ( BuildContext context ) => Status(),
 
 };

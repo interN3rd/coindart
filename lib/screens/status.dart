@@ -16,7 +16,15 @@ Future<bool> healthCheck()  async {
 
 class Status extends StatelessWidget {
 
-  const Status({Key? key}) : super(key: key);
+  Status({Key? key}) : super(key: key);
+
+  _signOut() async {
+
+    await _firebaseAuth.signOut();
+
+  }
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +96,61 @@ class Status extends StatelessWidget {
                       fontSize: 17
                   )
               ),
-            ]
-        )
-      )
+            ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+              ),
+              child: Text('Menu'),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/" );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: ( firebaseUser == null ? const Text('Login') : const Text('Logout') ),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () async {
+                firebaseUser == null ? Navigator.pushNamed( context, "/login" ) : await _signOut();
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Contact'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/contact" );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Imprint'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/imprint" );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('close menu'),
+              tileColor: Colors.deepPurple,
+              onTap: () {
+                Navigator.pop( context );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
