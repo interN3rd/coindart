@@ -17,6 +17,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  _signOut() async {
+
+    await _firebaseAuth.signOut();
+
+  }
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   final formkey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   String email = '';
@@ -26,16 +34,14 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
 
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
 
       backgroundColor: Colors.white12,
 
       appBar: AppBar(
         title: const Text( "Login" ),
-        leading: IconButton(
-          icon: const Icon( Icons.arrow_back_ios_new, color: Colors.green, size: 30, ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
       ),
 
       body: isloading ? const Center( child: CircularProgressIndicator() ) : Form(
@@ -180,6 +186,66 @@ class _LoginState extends State<Login> {
               )
             ],
           ),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+              ),
+              child: Text('Menu'),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/" );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: ( firebaseUser == null ? const Text('Register') : const Text('Logout') ),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () async {
+                firebaseUser == null ? Navigator.pushNamed( context, "/register" ) : await _signOut();
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Contact'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/contact" );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Imprint'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/imprint" );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Status'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/status" );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('close menu'),
+              tileColor: Colors.deepPurple,
+              onTap: () {
+                Navigator.pop( context );
+              },
+            ),
+          ],
         ),
       ),
     );
