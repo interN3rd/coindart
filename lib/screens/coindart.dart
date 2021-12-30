@@ -1,3 +1,5 @@
+import 'package:coindart/components/drawer_menu.dart';
+import 'package:coindart/config/themes/coindart_theme.dart';
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:coindart/constants/app_constants.dart';
@@ -9,18 +11,15 @@ class Coindart extends StatefulWidget {
 
   @override
   _CoindartState createState() => _CoindartState();
-
-}
-
-final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
-_signOut() async {
-
-  await _firebaseAuth.signOut();
-
 }
 
 class _CoindartState extends State<Coindart> {
+
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  _signOut() async {
+    await _firebaseAuth.signOut();
+  }
 
   @override
   Widget build( BuildContext context ) {
@@ -29,24 +28,7 @@ class _CoindartState extends State<Coindart> {
 
         title: "Coindart",
         routes: routes,
-        theme: ThemeData(
-
-          primaryColor: Colors.deepPurple,
-          scaffoldBackgroundColor: Colors.white12,
-
-          appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.deepPurple,
-              foregroundColor: Colors.white,
-              centerTitle: true
-          ),
-
-          textTheme: const TextTheme(
-            subtitle1: TextStyle( color: Colors.white ),
-            subtitle2: TextStyle( color: Colors.white ),
-            bodyText1: TextStyle( color: Colors.white ),
-            bodyText2: TextStyle( color: Colors.white ),
-          ),
-        ),
+        theme: CoindartTheme.defaultScheme,
 
         home: Builder(
             builder: (context) => Scaffold(
@@ -151,16 +133,17 @@ class _CoindartState extends State<Coindart> {
                                     "Status",
                                     style: TextStyle(
                                       color: Colors.grey
-                                    )
-                                  )
-                                )
-                              ]
-                          )
-                        ]
-                    )
-                )
-            )
-        )
+                                    ),
+                                  ),
+                                ),
+                              ],
+                          ),
+                        ],
+                    ),
+                ),
+              drawer: DrawerMenu(),
+            ),
+        ),
     );
   }
 }

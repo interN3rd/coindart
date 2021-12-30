@@ -1,22 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:coindart/components/drawer_menu.dart';
 import "package:flutter/material.dart";
 import "package:flutter_form_builder/flutter_form_builder.dart";
 
 class Contact extends StatelessWidget {
 
+  Contact({Key? key}) : super(key: key);
+
   /// the _formKey allows to view, modify and process form data and its state
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
-  _signOut() async {
-    await _firebaseAuth.signOut();
-  }
-
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build( BuildContext context ) {
-
-    User? firebaseUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
 
@@ -76,58 +71,7 @@ class Contact extends StatelessWidget {
       ]
     )
     ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-              ),
-              child: Text('Menu'),
-            ),
-            ListTile(
-              title: const Text('Home'),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () {
-                Navigator.pushNamed( context, "/" );
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: ( firebaseUser == null ? const Text('Login') : const Text('Logout') ),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () async {
-                firebaseUser == null ? Navigator.pushNamed( context, "/login" ) : await _signOut();
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text('Imprint'),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () {
-                Navigator.pushNamed( context, "/imprint" );
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text('Status'),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () {
-                Navigator.pushNamed( context, "/status" );
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text('close menu'),
-              tileColor: Colors.deepPurple,
-              onTap: () {
-                Navigator.pop( context );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerMenu(),
     );
   }
 }

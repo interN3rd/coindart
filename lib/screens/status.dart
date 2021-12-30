@@ -1,3 +1,4 @@
+import 'package:coindart/components/drawer_menu.dart';
 import 'package:coindart/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,15 +17,7 @@ Future<bool> healthCheck()  async {
 
 class Status extends StatelessWidget {
 
-  Status({Key? key}) : super(key: key);
-
-  _signOut() async {
-
-    await _firebaseAuth.signOut();
-
-  }
-
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  const Status({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,58 +92,7 @@ class Status extends StatelessWidget {
             ],
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.deepPurple,
-              ),
-              child: Text('Menu'),
-            ),
-            ListTile(
-              title: const Text('Home'),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () {
-                Navigator.pushNamed( context, "/" );
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: ( firebaseUser == null ? const Text('Login') : const Text('Logout') ),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () async {
-                firebaseUser == null ? Navigator.pushNamed( context, "/login" ) : await _signOut();
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text('Contact'),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () {
-                Navigator.pushNamed( context, "/contact" );
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text('Imprint'),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () {
-                Navigator.pushNamed( context, "/imprint" );
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text('close menu'),
-              tileColor: Colors.deepPurple,
-              onTap: () {
-                Navigator.pop( context );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerMenu(),
     );
   }
 }
