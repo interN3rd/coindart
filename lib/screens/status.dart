@@ -4,34 +4,49 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<bool> healthCheck()  async {
+Future<bool> healthCheck() async {
   // healthCheck to provide unauthenticated user information about
   // operational status of coinmarketcap api
-  const url = 'https:www.google.com';
-  final response = await http.get(Uri.parse(url));
+  const url = 'https://www.google.com';
+  final response = await http.get( Uri.parse( url ) );
+
   if( response.statusCode == 200 ) {
+
     return true;
+
   }
+
   return false;
+
 }
 
-class Status extends StatelessWidget {
+class Status extends StatefulWidget {
 
   const Status({Key? key}) : super(key: key);
 
   @override
+  _StatusState createState() => _StatusState();
+
+}
+
+class _StatusState extends State<Status> {
+
+  @override
   Widget build(BuildContext context) {
 
-    // check if a user is authenticated
-    String authStatus;
+    bool? apiStatus;
+    healthCheck().then( ( result ) {
+      apiStatus = result;
+    });
+
     User? firebaseUser = FirebaseAuth.instance.currentUser;
+
+    String authStatus;
     if( firebaseUser != null ) {
       authStatus = AppConstants.loggedIn;
     } else {
       authStatus = AppConstants.loggedOut;
     }
-
-    Future<bool>? apiStatus = healthCheck();
 
     return Scaffold(
 
@@ -81,14 +96,14 @@ class Status extends StatelessWidget {
                       fontSize: 17
                   )
               ),
-              Text(
-                  ( apiStatus == true  ? "operational" : "unavailable"),
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                      color: ( apiStatus == true ? Colors.greenAccent : Colors.redAccent ),
-                      fontSize: 17
-                  )
-              ),
+                  Text(
+                    apiStatus == true ? "operational" : "unavailable",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                        color: apiStatus == true ? Colors.greenAccent : Colors.redAccent,
+                        fontSize: 17
+                    ),
+                  ),
             ],
         ),
       ),
