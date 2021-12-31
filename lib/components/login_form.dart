@@ -26,7 +26,9 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build( BuildContext context ) {
 
-    return Column(
+    return Form(
+      key: formkey,
+        child: Column(
       children: [
         TextFormField(
           keyboardType: TextInputType.emailAddress,
@@ -142,6 +144,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
         )
       ],
+    ),
     );
   }
 }
