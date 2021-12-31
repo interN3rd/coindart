@@ -1,7 +1,8 @@
+import 'package:coindart/components/greeting_text.dart';
+import 'package:coindart/components/invisible_widget.dart';
 import 'package:coindart/components/login_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
-
 import '../config/routes/routes.dart';
 import 'package:coindart/config/themes/coindart_theme.dart';
 import 'package:coindart/constants/app_constants.dart';
@@ -18,11 +19,6 @@ class Coindart extends StatefulWidget {
 }
 
 class _CoindartState extends State<Coindart> {
-
-  final formkey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
-  bool isloading = false;
 
   @override
   Widget build( BuildContext context ) {
@@ -44,28 +40,9 @@ class _CoindartState extends State<Coindart> {
                     padding: const EdgeInsets.all( 30 ),
                     child: Column(
                         children:  <Widget> [
-                          const Text(
-                              AppConstants.welcomeMessage,
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17
-                              )
-                          ),
+                          const GreetingText(),
                           const Divider(),
-                          const Text(
-                              AppConstants.loginPrompt,
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17
-                              )
-                          ),
-                          const Divider(),
-                          firebaseUser == null ? const LoginForm() : const Visibility(
-                            child: Text("invisible"),
-                            visible: false,
-                          ),
+                          firebaseUser == null ? const LoginForm() : const InvisibleWidget(),
                           const Spacer(),
                           const FooterMenu(),
                         ],
