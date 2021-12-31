@@ -127,6 +127,8 @@ class _RegisterState extends State<Register> {
                                 duration: Duration(seconds: 5),
                               ),
                             );
+                            
+                            Navigator.pushNamed( context, "/login");
 
                           } on FirebaseAuthException catch( e ) {
                             showDialog(
