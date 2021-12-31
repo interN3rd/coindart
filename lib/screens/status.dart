@@ -9,14 +9,15 @@ Future<bool> healthCheck() async {
   // operational status of coinmarketcap api
   const url = 'https://www.google.com';
   final response = await http.get( Uri.parse( url ) );
+  bool apiAvailable = false;
 
   if( response.statusCode == 200 ) {
 
-    return true;
+    return apiAvailable = true;
 
   }
 
-  return false;
+  return apiAvailable;
 
 }
 
@@ -30,6 +31,14 @@ class Status extends StatefulWidget {
 }
 
 class _StatusState extends State<Status> {
+
+  Future<bool>? futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = healthCheck();
+  }
 
   @override
   Widget build(BuildContext context) {
