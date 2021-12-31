@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:coindart/components/drawer_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -184,6 +185,7 @@ class _CoinlistState extends State<Coinlist> {
           ],
         ),
       ),
+      drawer: DrawerMenu(),
     );
   }
 }

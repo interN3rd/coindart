@@ -38,6 +38,20 @@ class DrawerMenu extends StatelessWidget {
               Navigator.pushNamed( context, "/" );
               },
           ),
+          firebaseUser == null ? const Visibility(
+            child: Text("invisible"),
+            visible: false,
+          ) : ListTile(
+            leading: const Icon(
+              Icons.list_alt,
+              color: Colors.white,
+            ),
+            title: const Text('List of coins'),
+            tileColor: Colors.deepPurpleAccent,
+            onTap: () async {
+              Navigator.pushNamed( context, "/coinlist" );
+            },
+          ),
           ListTile(
             leading: Icon(
               ( firebaseUser == null ? Icons.login : Icons.logout),
