@@ -1,9 +1,11 @@
-import 'package:coindart/components/drawer_menu.dart';
-import 'package:coindart/config/themes/coindart_theme.dart';
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import 'package:coindart/constants/app_constants.dart';
+
 import '../config/routes/routes.dart';
+import 'package:coindart/config/themes/coindart_theme.dart';
+import 'package:coindart/constants/app_constants.dart';
+import 'package:coindart/components/drawer_menu.dart';
+import 'package:coindart/components/footer_menu.dart';
 
 class Coindart extends StatefulWidget {
 
@@ -11,6 +13,7 @@ class Coindart extends StatefulWidget {
 
   @override
   _CoindartState createState() => _CoindartState();
+
 }
 
 class _CoindartState extends State<Coindart> {
@@ -98,46 +101,7 @@ class _CoindartState extends State<Coindart> {
                               ]
                           ),
                           const Spacer(),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget> [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed( context, "/contact" );
-                                    },
-                                    child: const Text(
-                                        "Contact",
-                                        style: TextStyle(
-                                            color: Colors.deepPurpleAccent
-                                        )
-                                    )
-                                ),
-                                const SizedBox( width: 30 ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed( context, "/imprint" );
-                                    },
-                                    child: const Text(
-                                        "Imprint",
-                                        style: TextStyle(
-                                            color: Colors.deepPurpleAccent
-                                        )
-                                    )
-                                ),
-                                const SizedBox( width: 30 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed( context, "/status" );
-                                  },
-                                  child: const Text(
-                                    "Status",
-                                    style: TextStyle(
-                                      color: Colors.grey
-                                    ),
-                                  ),
-                                ),
-                              ],
-                          ),
+                          const FooterMenu(),
                         ],
                     ),
                 ),
