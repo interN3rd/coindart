@@ -98,16 +98,6 @@ class _CoinlistState extends State<Coinlist> {
       body: Center(
         child: Stack(
           children: [
-            ElevatedButton(
-              child: const Text( "FAVS" ),
-              onPressed: () async {
-                  Navigator.pushNamed( context, "/favorites" );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              )
-          ),
             Padding(
               padding: const EdgeInsets.all(16),
               child:

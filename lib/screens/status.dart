@@ -7,17 +7,20 @@ import 'package:http/http.dart' as http;
 Future<bool> healthCheck() async {
   // healthCheck to provide unauthenticated user information about
   // operational status of coinmarketcap api
-  const url = 'https://www.google.com';
-  final response = await http.get( Uri.parse( url ) );
-  bool apiAvailable = false;
+  // API-URL and API-Key
+  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=1';
+  final Map<String, String> tokenData = {
+    "X-CMC_PRO_API_KEY": "8836be1d-8855-43d4-8689-3e9f9f0911c7",
+  };
+
+  // API-Call
+  final response = await http.get(Uri.parse(url), headers: tokenData);
 
   if( response.statusCode == 200 ) {
-
-    return apiAvailable = true;
-
+    return true;
+  } else {
+    return false;
   }
-
-  return apiAvailable;
 
 }
 
@@ -42,11 +45,6 @@ class _StatusState extends State<Status> {
 
   @override
   Widget build(BuildContext context) {
-
-    bool? apiStatus;
-    healthCheck().then( ( result ) {
-      apiStatus = result;
-    });
 
     User? firebaseUser = FirebaseAuth.instance.currentUser;
 
@@ -105,14 +103,23 @@ class _StatusState extends State<Status> {
                       fontSize: 17
                   )
               ),
-                  Text(
-                    apiStatus == true ? "operational" : "unavailable",
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        color: apiStatus == true ? Colors.greenAccent : Colors.redAccent,
-                        fontSize: 17
-                    ),
-                  ),
+              FutureBuilder<bool>(
+                future: futureData,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data == true ? "operational" : "not operational",
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                          color: snapshot.data == true ? Colors.greenAccent : Colors.redAccent,
+                          fontSize: 17
+                      )
+                    );
+                  } else if(snapshot.hasError) {
+                    return const Text("Unable to confirm API status");
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                })
+
             ],
         ),
       ),
