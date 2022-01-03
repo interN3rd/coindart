@@ -17,9 +17,9 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   "/register": ( BuildContext context ) => const Register(),
   "/coinlist": ( BuildContext context ) => const Coinlist(),
   "/favorites": ( BuildContext context ) => const Favorites(),
-  "/details": ( BuildContext context ) => Details(),
-  "/contact": ( BuildContext context ) => Contact(),
-  "/imprint": ( BuildContext context ) => Imprint(),
-  "/status": ( BuildContext context ) => Status(),
+  "/details": ( BuildContext context ) => const Details(coinId: '', coinName: ''),
+  "/contact": ( BuildContext context ) => const Contact(),
+  "/imprint": ( BuildContext context ) => const Imprint(),
+  "/status": ( BuildContext context ) => const Status(),
 
 };

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'details.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
 CollectionReference favorites = FirebaseFirestore.instance.collection("user/" + user!.uid + "/favorites");
@@ -158,7 +159,14 @@ class _CoinlistState extends State<Coinlist> {
                                 Expanded(child: GestureDetector(
                                   child: Text( snapshot.data!.elementAt(index).name ),
                                   onTap: () async {
-                                    Navigator.pushNamed( context, "/details" );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Details(
+                                            coinId: snapshot.data!.elementAt(index).id.toString(),
+                                            coinName: snapshot.data!.elementAt(index).name,
+                                          )),
+                                    );
                                   }
                                 )),
                                 Text( "\$" + snapshot.data!.elementAt(index).price.toStringAsFixed(4) ),
