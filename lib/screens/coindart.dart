@@ -23,6 +23,11 @@ class Coindart extends StatefulWidget {
 class _CoindartState extends State<Coindart> {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build( BuildContext context ) {
 
     User? firebaseUser = FirebaseAuth.instance.currentUser;

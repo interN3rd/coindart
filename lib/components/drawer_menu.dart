@@ -33,7 +33,7 @@ class DrawerMenu extends StatelessWidget {
             title: const Text('Home'),
             tileColor: Colors.deepPurpleAccent,
             onTap: () {
-              Navigator.pushNamed( context, "/" );
+              Navigator.pushNamed( context, "/coindart" );
               },
           ),
           Visibility(
