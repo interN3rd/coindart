@@ -128,7 +128,7 @@ class _ContactState extends State<Contact> {
                   children: <Widget>[
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.grey,
+                          primary: Colors.redAccent,
                           textStyle: const TextStyle(color: Colors.white)),
                       onPressed: () {
                         formKey.currentState!.reset();
@@ -138,7 +138,7 @@ class _ContactState extends State<Contact> {
                     const SizedBox(width: 25),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          primary: Colors.deepPurple,
                           textStyle: const TextStyle(color: Colors.white)),
                       onPressed: submitForm,
                       child: const Text('Submit'),
