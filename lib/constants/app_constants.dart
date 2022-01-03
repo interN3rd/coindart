@@ -15,6 +15,8 @@ class AppConstants {
   static const loggedIn = "You are an authenticated user.";
   static const loggedOut = "You are currently not an authenticated user.";
 
+  static const loggedInGreeting = "Dear trader, there's one golden investment rule that you should always keep in mind: Never invest money that you can't afford to lose.";
+
   static const kTextFieldDecoration = InputDecoration(
     hintText: 'Enter a value',
     hintStyle: TextStyle(color: Colors.grey),

@@ -1,6 +1,8 @@
 import 'package:coindart/components/greeting_text.dart';
 import 'package:coindart/components/invisible_widget.dart';
-import 'package:coindart/components/login_form.dart';
+import 'package:coindart/components/logged_in_text.dart';
+import 'package:coindart/components/login_button.dart';
+import 'package:coindart/components/register_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import '../config/routes/routes.dart';
@@ -40,15 +42,17 @@ class _CoindartState extends State<Coindart> {
                     padding: const EdgeInsets.all( 30 ),
                     child: Column(
                         children:  <Widget> [
-                          const GreetingText(),
+                          firebaseUser == null ? const GreetingText() : const LoggedInText(),
                           const Divider(),
-                          firebaseUser == null ? const LoginForm() : const InvisibleWidget(),
+                          firebaseUser == null ? const LoginButton() : const InvisibleWidget(),
+                          const Divider(),
+                          firebaseUser == null ? const RegisterButton() : const InvisibleWidget(),
                           const Spacer(),
                           const FooterMenu(),
                         ],
                     ),
                 ),
-              drawer: DrawerMenu(),
+              drawer: const DrawerMenu(),
             ),
         ),
     );

@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatelessWidget {
 
-  DrawerMenu({Key? key}) : super(key: key);
-
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  const DrawerMenu({Key? key}) : super(key: key);
 
   _signOut() async {
 
-    await _firebaseAuth.signOut();
+    await FirebaseAuth.instance.signOut();
 
   }
 
