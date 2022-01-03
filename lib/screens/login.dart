@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
 
                               await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (contex) => const Coinlist(),
+                                  builder: (context) => const Coinlist(),
                                 ),
                               );
 

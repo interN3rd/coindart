@@ -10,16 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 User? user = FirebaseAuth.instance.currentUser;
 CollectionReference favorites = FirebaseFirestore.instance.collection("user/" + user!.uid + "/favorites");
 
-Future<List<Coin>> fetchCoin() async {
-
-  // API-URL and API-Key
-  const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=20';
-  final Map<String, String> tokenData = {
-    "X-CMC_PRO_API_KEY": "8836be1d-8855-43d4-8689-3e9f9f0911c7",
-  };
-
-  // API-Call
-  final response = await http.get(Uri.parse(url), headers: tokenData);
+Future<List<Coin>> fetchFavorites() async {
 
   // Get Favorites from Database
   List<num> favIds = [];
@@ -29,14 +20,25 @@ Future<List<Coin>> fetchCoin() async {
     }
   });
 
+  String idList = "";
+  for (var element in favIds) {
+    idList = idList + element.toString() + (element == favIds.last ? '' : ',');
+  }
+
+  // API-URL and API-Key
+  String url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?id=' + idList;
+  final Map<String, String> tokenData = {
+    "X-CMC_PRO_API_KEY": "8836be1d-8855-43d4-8689-3e9f9f0911c7",
+  };
+
+  // API-Call
+  final response = await http.get(Uri.parse(url), headers: tokenData);
+
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response then parse the JSON.
     List<Coin> result = [];
-    for( var i = 0 ; i < 20; i++ ) {
-      result.add(Coin.fromJson(jsonDecode(response.body)['data'][i]));
-      if(favIds.contains(result[i].id)) {
-        result[i].changeFavorite();
-      }
+    for( var i = 0 ; i < favIds.length; i++ ) {
+      result.add(Coin.fromJson(jsonDecode(response.body)['data'][favIds[i].toString()]));
     }
     return result;
   } else {
@@ -50,7 +52,7 @@ class Coin {
   final String name;
   final num price;
   final num change;
-  bool isFavorite = false;
+  bool isFavorite = true;
 
   Coin({
     required this.id,
@@ -73,27 +75,27 @@ class Coin {
   }
 }
 
-class Coinlist extends StatefulWidget {
-  const Coinlist({Key? key}) : super(key: key);
+class Details extends StatefulWidget {
+  const Details({Key? key}) : super(key: key);
 
   @override
-  _CoinlistState createState() => _CoinlistState();
+  _DetailsState createState() => _DetailsState();
 }
 
-class _CoinlistState extends State<Coinlist> {
+class _DetailsState extends State<Details> {
   Future<List<Coin>>? futureData;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchCoin();
+    futureData = fetchFavorites();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Available Coins'),
+        title: const Text('Detailseite von Coin xy'),
       ),
       body: Center(
         child: Stack(
@@ -130,37 +132,20 @@ class _CoinlistState extends State<Coinlist> {
                               children: [
                                 SizedBox(width: 35, child:
                                   // --- Button to mark coins as favorites (saved in Firestore) --- //
-                                  IconButton(onPressed: () async {
-                                    final getFav = await favorites.doc(docId).get();
-                                    // Add a coin to favorites or remove if already set as favorite
-                                    if(!getFav.exists) {
-                                      favorites.doc(docId).set({
-                                        "id": snapshot.data!.elementAt(index).id,
-                                        "name": snapshot.data!.elementAt(index).name,
-                                      });
+                                  IconButton(onPressed: () {
+                                    FirebaseFirestore.instance.runTransaction((Transaction delTrans) async {
+                                      delTrans.delete(favorites.doc(docId));
                                       setState(() {
-                                        snapshot.data!.elementAt(index).changeFavorite();
+                                        snapshot.data!.removeWhere((item) => item.id == snapshot.data!.elementAt(index).id);
                                       });
-                                    } else {
-                                      FirebaseFirestore.instance.runTransaction((Transaction delTrans) async {
-                                        delTrans.delete(favorites.doc(docId));
-                                        setState(() {
-                                          snapshot.data!.elementAt(index).changeFavorite();
-                                        });
-                                      });
-                                    }
-                                  }, 
-                                    icon: Icon((snapshot.data!.elementAt(index).isFavorite) ? CupertinoIcons.heart_fill : CupertinoIcons.heart, color: Colors.deepPurple),
+                                    });
+                                  },
+                                    icon: const Icon(CupertinoIcons.heart_fill, color: Colors.deepPurple),
                                     padding: const EdgeInsets.only(right: 20)
                                   )
                                 ),
                                 // Name, price and 24h price change
-                                Expanded(child: GestureDetector(
-                                  child: Text( snapshot.data!.elementAt(index).name ),
-                                  onTap: () async {
-                                    Navigator.pushNamed( context, "/details" );
-                                  }
-                                )),
+                                Expanded(child: Text( snapshot.data!.elementAt(index).name )),
                                 Text( "\$" + snapshot.data!.elementAt(index).price.toStringAsFixed(4) ),
                                 SizedBox(child: Text( snapshot.data!.elementAt(index).change.toStringAsFixed(2) + "%", textAlign: TextAlign.right, ), width: 80),
                               ],

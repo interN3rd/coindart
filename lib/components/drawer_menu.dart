@@ -72,7 +72,7 @@ class DrawerMenu extends StatelessWidget {
             title: ( firebaseUser == null ? const Text('Login') : const Text('Logout') ),
             tileColor: Colors.deepPurpleAccent,
             onTap: () async {
-              firebaseUser == null ? Navigator.pushNamed( context, "/login" ) : await _signOut();
+              firebaseUser == null ? Navigator.pushNamed( context, "/login" ) : await _signOut().then(Navigator.pushNamed( context, "/login" ));
               },
           ),
             ListTile(
