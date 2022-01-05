@@ -7,22 +7,41 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
+String noData = "[Data currently unavailable]";
 
 Future<Coin> fetchCoinData(final String coinId) async {
 
   // API-URL and API-Key
-  String url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?id=' + coinId;
+  String urlInfo = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?id=' + coinId;
+  String urlQuotes = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?id=' + coinId;
 
   final Map<String, String> tokenData = {
     "X-CMC_PRO_API_KEY": "8836be1d-8855-43d4-8689-3e9f9f0911c7",
   };
 
   // API-Call
-  final response = await http.get(Uri.parse(url), headers: tokenData);
+  final responseInfo = await http.get(Uri.parse(urlInfo), headers: tokenData);
+  final responseQuotes = await http.get(Uri.parse(urlQuotes), headers: tokenData);
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response then parse the JSON.
-    return Coin.fromJson(jsonDecode(response.body)['data'][coinId]);
+  if (responseInfo.statusCode == 200 && responseQuotes.statusCode == 200) {
+
+    final dynamic jsonInfo = jsonDecode(responseInfo.body)['data'][coinId];
+    final dynamic jsonQuotes = jsonDecode(responseQuotes.body)['data'][coinId];
+
+    return Coin(
+        id: jsonInfo['id'],
+        name: (jsonInfo['name'] == null) ? noData : jsonInfo['name'],
+        symbol: (jsonInfo['symbol'] == null) ? noData : jsonInfo['symbol'],
+        logo: (jsonInfo['logo'] == null) ? noData : jsonInfo['logo'],
+        website: (jsonInfo['urls']['website'][0] == null) ? noData : jsonInfo['urls']['website'][0],
+        price: (jsonQuotes['quote']['USD']['price'] == null) ? noData : jsonQuotes['quote']['USD']['price'].toString(),
+        circSupply: (jsonQuotes['circulating_supply'] == null) ? noData : jsonQuotes['circulating_supply'].toString(),
+        maxSupply: (jsonQuotes['max_supply'] == null) ? noData : jsonQuotes['max_supply'].toString(),
+        marketCap: (jsonQuotes['quote']['USD']['market_cap'] == null) ? noData : jsonQuotes['quote']['USD']['market_cap'].toString(),
+        changeDay: (jsonQuotes['quote']['USD']['percent_change_24h'] == null) ? noData : jsonQuotes['quote']['USD']['percent_change_24h'].toString(),
+        changeWeek: (jsonQuotes['quote']['USD']['percent_change_7d'] == null) ? noData : jsonQuotes['quote']['USD']['percent_change_7d'].toString()
+    );
+
   } else {
     // If the server did not return a 200 OK response then throw an exception.
     throw Exception('Failed to load Coin Data');
@@ -30,23 +49,31 @@ Future<Coin> fetchCoinData(final String coinId) async {
 }
 
 class Coin {
-  final num id;
-  final String name;
-  final String description;
+  num id;
+  String name;
+  String symbol;
+  String logo;
+  String website;
+  String price;
+  String circSupply;
+  String maxSupply;
+  String marketCap;
+  String changeDay;
+  String changeWeek;
 
   Coin({
     required this.id,
     required this.name,
-    required this.description,
+    required this.symbol,
+    required this.logo,
+    required this.website,
+    required this.price,
+    required this.circSupply,
+    required this.maxSupply,
+    required this.marketCap,
+    required this.changeDay,
+    required this.changeWeek
   });
-
-  factory Coin.fromJson(dynamic json) {
-    return Coin(
-      id: json['id'],
-      name: json['name'],
-      description: json['description']
-    );
-  }
 
 }
 
@@ -83,7 +110,10 @@ class _DetailsState extends State<Details> {
               return Flex(
                 direction: Axis.vertical,
                 children: [
-                  Text(snapshot.data!.description)
+                  Text(snapshot.data!.symbol),
+                  Text(snapshot.data!.price),
+                  Text(snapshot.data!.circSupply),
+                  Text(snapshot.data!.maxSupply),
                 ]
               );
             } else if (snapshot.hasError) {
