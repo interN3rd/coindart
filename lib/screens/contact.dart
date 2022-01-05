@@ -132,7 +132,7 @@ class _ContactState extends State<Contact> {
                           textStyle: const TextStyle(color: Colors.white)),
                       onPressed: () {
                         formKey.currentState!.reset();
-                        },
+                      },
                       child: const Text('Delete input'),
                     ),
                     const SizedBox(width: 25),
@@ -140,15 +140,30 @@ class _ContactState extends State<Contact> {
                       style: ElevatedButton.styleFrom(
                           primary: Colors.deepPurple,
                           textStyle: const TextStyle(color: Colors.white)),
-                      onPressed: submitForm,
+                      onPressed: () {
+                        submitForm();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            backgroundColor: Colors.blueGrey,
+                            content: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                  "We have received your message. We will get to you soon."
+                              ),
+                            ),
+                            duration: Duration(seconds: 5),
+                          ),
+                        );
+                        formKey.currentState!.reset();
+                      },
                       child: const Text('Submit'),
                     ),
                   ],
+                ),
+              ],
             ),
-            ],
           ),
         ),
-      ),
       ),
       drawer: const DrawerMenu(),
     );

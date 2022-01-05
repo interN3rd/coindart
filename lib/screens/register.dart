@@ -162,7 +162,7 @@ class _RegisterState extends State<Register> {
           ),
         ),
         ),
-      drawer: DrawerMenu(),
+      drawer: const DrawerMenu(),
       );
   }
 }
