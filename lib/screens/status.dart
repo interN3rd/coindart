@@ -47,9 +47,11 @@ class _StatusState extends State<Status> {
   Widget build(BuildContext context) {
 
     User? firebaseUser = FirebaseAuth.instance.currentUser;
+    var email;
 
     String authStatus;
     if( firebaseUser != null ) {
+      email = firebaseUser.email;
       authStatus = AppConstants.loggedIn;
     } else {
       authStatus = AppConstants.loggedOut;
@@ -87,7 +89,7 @@ class _StatusState extends State<Status> {
                   )
               ),
               Text(
-                  authStatus,
+                  authStatus + " You are logged in with your email: " + email,
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                       color: ( firebaseUser == null ? Colors.redAccent : Colors.greenAccent ),

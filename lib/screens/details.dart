@@ -109,12 +109,93 @@ class _DetailsState extends State<Details> {
             if (snapshot.hasData) {
               return Flex(
                 direction: Axis.vertical,
-                children: [
-                  Text(snapshot.data!.symbol),
-                  Text(snapshot.data!.price),
-                  Text(snapshot.data!.circSupply),
-                  Text(snapshot.data!.maxSupply),
-                ]
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget> [
+                    const Hero(
+                      tag: '1',
+                      child: Text(
+                        "Overview",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurpleAccent
+                        ),
+                      ),
+                    ),
+                    Text(
+                      widget.coinName + " is a cryptocurrency. Its symbol is " + snapshot.data!.symbol + ".",
+                      textAlign: TextAlign.justify,
+                    ),
+                    const Divider( height: 30 ),
+                    const Hero(
+                      tag: '1',
+                      child: Text(
+                        'Supply',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurpleAccent
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "There is a total supply of " + snapshot.data!.maxSupply + " " + snapshot.data!.symbol + ". Out of this total supply there is a circulating supply of " + snapshot.data!.circSupply + " " + snapshot.data!.symbol + ".",
+                      textAlign: TextAlign.justify,
+                    ),
+                    const Divider( height: 30),
+                    const Hero(
+                      tag: '1',
+                      child: Text(
+                        'Price Change',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurpleAccent
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "Currently one " + snapshot.data!.symbol + " trades for \$" + snapshot.data!.price + ". Compared to the day before the price change is " + snapshot.data!.changeDay + ". And compared to last week the price change is " + snapshot.data!.changeWeek + ".",
+                      textAlign: TextAlign.justify,
+                    ),
+                    const Divider( height: 30),
+                    const Hero(
+                      tag: '1',
+                      child: Text(
+                        'Market Cap',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurpleAccent
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "The total market capitalization (market cap) of " + snapshot.data!.symbol + " at the moment is \$" + snapshot.data!.marketCap,
+                      textAlign: TextAlign.justify,
+                    ),
+                    const Divider( height: 30),
+                    const Hero(
+                      tag: '1',
+                      child: Text(
+                        'Website',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurpleAccent
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "To get more information about " + snapshot.data!.name + " please visit " + snapshot.data!.website + ". The website usually contains access to a software wallet and the whitepaper of a cryptocurrency.",
+                      textAlign: TextAlign.justify,
+                    ),
+                  ]
               );
             } else if (snapshot.hasError) {
               print("Snapshot.hasError");
