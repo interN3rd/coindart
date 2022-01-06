@@ -124,8 +124,47 @@ class _DetailsState extends State<Details> {
                         ),
                       ),
                     ),
-                    const Divider(height: 10),
+                    const Divider(height: 20),
                     const PriceChart(),
+                    const Divider(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 100,
+                          height: 34,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                            ),
+                            onPressed: (){},
+                            child: Text("BUY " + snapshot.data!.symbol,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        SizedBox(
+                          width: 100,
+                          height: 34,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),
+                            ),
+                            onPressed: (){},
+                            child: Text("SELL " + snapshot.data!.symbol,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     const Divider(height: 30),
                     const Hero(
                       tag: '1',
