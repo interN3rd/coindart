@@ -146,7 +146,7 @@ class _DetailsState extends State<Details> {
                     ),
                     const Divider( height: 30),
                     const Hero(
-                      tag: '1',
+                      tag: '3',
                       child: Text(
                         'Price Change',
                         textAlign: TextAlign.justify,
@@ -163,7 +163,7 @@ class _DetailsState extends State<Details> {
                     ),
                     const Divider( height: 30),
                     const Hero(
-                      tag: '3',
+                      tag: '4',
                       child: Text(
                         'Market Cap',
                         textAlign: TextAlign.justify,
@@ -180,7 +180,7 @@ class _DetailsState extends State<Details> {
                     ),
                     const Divider( height: 30),
                     const Hero(
-                      tag: '4',
+                      tag: '5',
                       child: Text(
                         'Website',
                         textAlign: TextAlign.justify,
