@@ -12,7 +12,6 @@ class AppConstants {
   static const loginPrompt = "Please login to your account or register a new one to access the latest crypto charts and your portfolio.";
 
   static const registerPrompt = "By registering a new account you agree to our terms of service.";
-  static const loggedIn = "You are an authenticated user.";
   static const loggedOut = "You are currently not an authenticated user.";
 
   static const loggedInGreeting = "Dear trader, there's one golden investment rule that you should always keep in mind: Never invest money that you can't afford to lose.";

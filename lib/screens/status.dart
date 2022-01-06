@@ -52,7 +52,7 @@ class _StatusState extends State<Status> {
     String authStatus;
     if( firebaseUser != null ) {
       email = firebaseUser.email;
-      authStatus = AppConstants.loggedIn;
+      authStatus = "You signed in with your email " + email + " and you are an authenticated user.";
     } else {
       authStatus = AppConstants.loggedOut;
     }
@@ -89,7 +89,7 @@ class _StatusState extends State<Status> {
                   )
               ),
               Text(
-                  authStatus + " You are logged in with your email: " + email,
+                  authStatus,
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                       color: ( firebaseUser == null ? Colors.redAccent : Colors.greenAccent ),
