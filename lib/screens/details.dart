@@ -101,7 +101,7 @@ class _DetailsState extends State<Details> {
       appBar: AppBar(
         title: Text(widget.coinName),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(30),
         child: FutureBuilder<Coin>(
           future: futureData,
