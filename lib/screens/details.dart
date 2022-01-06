@@ -1,3 +1,4 @@
+import 'package:coindart/components/price_chart.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:coindart/components/drawer_menu.dart';
@@ -111,6 +112,21 @@ class _DetailsState extends State<Details> {
                 direction: Axis.vertical,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget> [
+                    Hero(
+                      tag: '6',
+                      child: Text(
+                        widget.coinName + "/USD recent price action",
+                        textAlign: TextAlign.justify,
+                        style: const TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurpleAccent
+                        ),
+                      ),
+                    ),
+                    const Divider(height: 10),
+                    const PriceChart(),
+                    const Divider(height: 30),
                     const Hero(
                       tag: '1',
                       child: Text(
@@ -196,7 +212,7 @@ class _DetailsState extends State<Details> {
                       textAlign: TextAlign.justify,
                     ),
                   ]
-              );
+                );
             } else if (snapshot.hasError) {
               print("Snapshot.hasError");
               return Text('${snapshot.error}');
