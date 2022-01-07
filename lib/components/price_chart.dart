@@ -61,6 +61,42 @@ class _PriceChartState extends State<PriceChart> {
 
   List<ChartData> getChartData() {
     return <ChartData> [
+      ChartData( x: DateTime( 2021, 12, 23) ),
+      ChartData(
+          x: DateTime( 2021, 12, 24),
+          open: widget.price,
+          high: widget.price * 1.99,
+          low: widget.price,
+          close: widget.price * 1.99
+      ),
+      ChartData(
+          x: DateTime( 2021, 12, 25),
+          open: widget.price * 1.99,
+          high: widget.price * 1.99,
+          low: widget.price * 1.9,
+          close: widget.price * 1.99
+      ),
+      ChartData(
+          x: DateTime( 2021, 12, 26),
+          open: widget.price * 1.99,
+          high: widget.price * 1.99,
+          low: widget.price * 1.5,
+          close: widget.price * 1.99
+      ),
+      ChartData(
+          x: DateTime( 2021, 12, 27),
+          open: widget.price * 1.99,
+          high: widget.price * 1.99,
+          low: widget.price * 1.5,
+          close: widget.price * 1.5
+      ),
+      ChartData(
+          x: DateTime( 2021, 12, 28),
+          open: widget.price * 1.5,
+          high: widget.price * 1.5,
+          low: widget.price * 0.6,
+          close: widget.price * 0.7
+      ),
       ChartData(
           x: DateTime( 2021, 12, 29),
           open: widget.price * 0.7,
@@ -121,8 +157,10 @@ class _PriceChartState extends State<PriceChart> {
           x: DateTime( 2022, 01, 07),
           open: widget.price * 0.9,
           high: widget.price * 1.3,
-          low: widget.price * 0.9,
+          low: widget.price * 0.85,
           close: widget.price * 1.3),
+      ChartData(
+          x: DateTime( 2022, 01, 08 ) ),
     ];
   }
 }
