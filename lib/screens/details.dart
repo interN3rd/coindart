@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coindart/components/price_chart.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
-String noData = "[Data currently unavailable]";
+String noData = "[No Data available]";
 
 Future<Coin> fetchCoinData(final String coinId) async {
 
@@ -46,6 +47,76 @@ Future<Coin> fetchCoinData(final String coinId) async {
     // If the server did not return a 200 OK response then throw an exception.
     throw Exception('Failed to load Coin Data');
   }
+}
+
+Future<double> fetchUserCredit() async {
+
+  var collection = FirebaseFirestore.instance.collection('user');
+  var docSnapshot = await collection.doc(user!.uid).get();
+
+  if (docSnapshot.exists) {
+    Map<String, dynamic>? data = docSnapshot.data();
+    return data?['credit'].toDouble();
+  } else {
+    return 0;
+  }
+}
+
+Future<bool> buyCoin(double newCredit, String coinName) async {
+
+  var collection = FirebaseFirestore.instance.collection("user/" + user!.uid + "/coins");
+  var docSnapshot = await collection.doc(coinName).get();
+
+  if (docSnapshot.exists) {
+    Map<String, dynamic>? data = docSnapshot.data();
+    num currentAmount = data?['amount'];
+    collection.doc(coinName).set({
+      "amount": currentAmount + 1,
+    });
+  } else {
+    collection.doc(coinName).set({
+      "amount": 1,
+    });
+  }
+
+  collection = FirebaseFirestore.instance.collection('user');
+  collection.doc(user!.uid).set({
+    "credit": newCredit,
+  });
+
+  return true;
+}
+
+Future<bool> sellCoin(double newCredit, String coinName) async {
+
+  var collection = FirebaseFirestore.instance.collection("user/" + user!.uid + "/coins");
+  var docSnapshot = await collection.doc(coinName).get();
+
+  if (docSnapshot.exists) {
+    Map<String, dynamic>? data = docSnapshot.data();
+    num currentAmount = data?['amount'];
+    num newAmount = currentAmount - 1;
+    collection.doc(coinName).set({
+      "amount": newAmount,
+    });
+    if(newAmount < 1) {
+      await FirebaseFirestore.instance.runTransaction((Transaction delTrans) async {
+        delTrans.delete(collection.doc(coinName));
+      });
+      if(newAmount < 0) {
+        return false;
+      }
+    }
+  } else {
+    return false;
+  }
+
+  collection = FirebaseFirestore.instance.collection('user');
+  collection.doc(user!.uid).set({
+    "credit": newCredit,
+  });
+
+  return true;
 }
 
 class Coin {
@@ -115,7 +186,7 @@ class _DetailsState extends State<Details> {
               currentPriceAsString = snapshot.data!.price;
               currentPriceAsDouble = num.tryParse( currentPriceAsString )!.toDouble();
               return Flex(
-                direction: Axis.vertical,
+                  direction: Axis.vertical,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget> [
                     PriceChart( symbol, currentPriceAsDouble ),
@@ -130,7 +201,27 @@ class _DetailsState extends State<Details> {
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                             ),
-                            onPressed: (){},
+                            onPressed: () async {
+                              double userCredit = await fetchUserCredit();
+                              double coinPrice = double.parse(snapshot.data!.price);
+                              if(userCredit < coinPrice) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text("Insufficient Credit!"), backgroundColor: Colors.redAccent)
+                                );
+                              } else {
+                                double newCredit = (userCredit - coinPrice);
+                                bool coinBought = await buyCoin(newCredit, snapshot.data!.name);
+                                if(coinBought) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text("You successfully purchased 1 " + snapshot.data!.name + "!"), backgroundColor: Colors.green)
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text("Coin purchase failed! Please try again later."), backgroundColor: Colors.redAccent)
+                                  );
+                                }
+                              }
+                            },
                             child: Text("BUY " + snapshot.data!.symbol,
                               style: const TextStyle(
                                 fontSize: 12,
@@ -147,7 +238,21 @@ class _DetailsState extends State<Details> {
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),
                             ),
-                            onPressed: (){},
+                            onPressed: () async {
+                              double userCredit = await fetchUserCredit();
+                              double coinPrice = double.parse(snapshot.data!.price);
+                              double newCredit = (userCredit + coinPrice);
+                              bool coinSold = await sellCoin(newCredit, snapshot.data!.name);
+                              if(coinSold) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("You successfully sold 1 " + snapshot.data!.name + "!"), backgroundColor: Colors.green,)
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("You currently don't possess any " + snapshot.data!.name + " to sell."), backgroundColor: Colors.redAccent)
+                                );
+                              }
+                            },
                             child: Text("SELL " + snapshot.data!.symbol,
                               style: const TextStyle(
                                 fontSize: 12,
@@ -244,7 +349,7 @@ class _DetailsState extends State<Details> {
                       textAlign: TextAlign.justify,
                     ),
                   ]
-                );
+              );
             } else if (snapshot.hasError) {
               print("Snapshot.hasError");
               return Text('${snapshot.error}');
