@@ -2,7 +2,6 @@ import 'package:coindart/components/price_chart.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:coindart/components/drawer_menu.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -112,26 +111,14 @@ class _DetailsState extends State<Details> {
           future: futureData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              String symbol = snapshot.data!.symbol;
               currentPriceAsString = snapshot.data!.price;
               currentPriceAsDouble = num.tryParse( currentPriceAsString )!.toDouble();
               return Flex(
                 direction: Axis.vertical,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget> [
-                    Hero(
-                      tag: '6',
-                      child: Text(
-                        widget.coinName + "/USD recent price action",
-                        textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepPurpleAccent
-                        ),
-                      ),
-                    ),
-                    const Divider(height: 20),
-                    PriceChart( currentPriceAsDouble ),
+                    PriceChart( symbol, currentPriceAsDouble ),
                     const Divider(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

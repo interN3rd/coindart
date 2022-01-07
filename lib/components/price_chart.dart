@@ -1,133 +1,55 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-class _LineChartGradientColor {
-  List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
-}
+class PriceChart extends StatelessWidget {
 
-  class PriceChart extends StatelessWidget {
+  String coinSymbol = '';
+  double coinPrice = 0.0;
 
-  double price = 0.0;
+  PriceChart(this.coinSymbol, this.coinPrice, {Key? key}) : super(key: key);
 
-  PriceChart( double price, {Key? key} ) : super(key: key);
-
-  double get currentPrice => price;
+  String get symbol => coinSymbol;
+  double get price => coinPrice;
 
   @override
   Widget build( BuildContext context ) {
-
-  return SizedBox(
-    width: double.infinity,
-    height: 200,
-    child: LineChart( LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 1,
-          );},
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 1,
-          );
-          },),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
-              color: Color(0xff68737d),
-              fontWeight: FontWeight.bold,
-              fontSize: 16),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 3:
-                return 'OCT';
-                case 6:
-                  return 'NOV';
-                  case 9:
-                    return 'DEC';
-                    case 12:
-                      return 'JAN';
-            }
-            return '';
-            },
-          margin: 8,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          interval: 1,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Color(0xff67727d),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '10k';
-                case 3:
-                  return '30k';
-                  case 5:
-                    return '50k';
-            }
-            return '';
-            },
-          reservedSize: 32,
-          margin: 12,
-        ),
+    return SfCartesianChart(
+      title: ChartTitle( text: symbol + "/USD price history",
+      textStyle: const TextStyle(
+        color: Colors.white,
       ),
-      borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: const Color(0xff37434d), width: 1)),
-      minX: 0,
-      maxX: 14,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: [
-            FlSpot(0, currentPrice * 2 ),
-            FlSpot(1, currentPrice * 2.2 ),
-            FlSpot(2, currentPrice * 1.5),
-            FlSpot(3, 3.1),
-            FlSpot(4, 4),
-            FlSpot(5, 3),
-            FlSpot(6, 4),
-            FlSpot(7, 4),
-            FlSpot(8, 4),
-            FlSpot(9, 4),
-            FlSpot(10, 4),
-            FlSpot(11, 4),
-            FlSpot(12, 4),
-            FlSpot(13, 4),
-
+      backgroundColor: Colors.deepPurple),
+      primaryXAxis: CategoryAxis(),
+      series: <ChartSeries> [
+        LineSeries<PriceData, String>(
+          dataSource: [
+            PriceData( 'FEB', coinPrice * 1.1),
+            PriceData( 'MAR', coinPrice * 1.3),
+            PriceData( 'APR', coinPrice * 1.2),
+            PriceData( 'MAY', coinPrice * 1.5),
+            PriceData( 'JUN', coinPrice * 1.3),
+            PriceData( 'JUL', coinPrice * 1.2),
+            PriceData( 'AUG', coinPrice * 1.6),
+            PriceData( 'SEP', coinPrice * 2),
+            PriceData( 'OCT', coinPrice * 1.8),
+            PriceData( 'NOV', coinPrice * 1.5),
+            PriceData( 'DEC', coinPrice * 1.8),
+            PriceData( 'JAN', coinPrice * 1.3),
           ],
-          isCurved: true,
-          colors: _LineChartGradientColor().gradientColors,
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            colors:
-            _LineChartGradientColor().gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-          ),
+          trendlines:<Trendline>[
+            Trendline( isVisible: false)
+          ],
+          xValueMapper: ( PriceData sales, _) => sales.month,
+          yValueMapper: (PriceData sales, _) => sales.price,
+          animationDuration: 1000,
         ),
       ],
-    ),),
-  );
+    );
   }
+}
+
+class PriceData {
+  PriceData( this.month, this.price);
+  final String month;
+  final double? price;
 }
