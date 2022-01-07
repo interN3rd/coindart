@@ -156,19 +156,22 @@ class _CoinlistState extends State<Coinlist> {
                                   )
                                 ),
                                 // Name, price and 24h price change
-                                Expanded(child: GestureDetector(
-                                  child: Text( snapshot.data!.elementAt(index).name ),
-                                  onTap: () async {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
+                                Expanded(
+                                  child: GestureDetector(
+                                    child: Text( snapshot.data!.elementAt(index).name ),
+                                    onTap: () async {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
                                           builder: (context) => Details(
                                             coinId: snapshot.data!.elementAt(index).id.toString(),
                                             coinName: snapshot.data!.elementAt(index).name,
-                                          )),
-                                    );
-                                  }
-                                )),
+                                          )
+                                        ),
+                                      );
+                                    }
+                                  )
+                                ),
                                 Text( "\$" + snapshot.data!.elementAt(index).price.toStringAsFixed(4) ),
                                 SizedBox(child: Text( snapshot.data!.elementAt(index).change.toStringAsFixed(2) + "%", textAlign: TextAlign.right, ), width: 80),
                               ],
