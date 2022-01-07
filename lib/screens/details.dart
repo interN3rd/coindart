@@ -98,6 +98,10 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+
+    String currentPriceAsString = '';
+    double currentPriceAsDouble = 0;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.coinName),
@@ -108,6 +112,8 @@ class _DetailsState extends State<Details> {
           future: futureData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              currentPriceAsString = snapshot.data!.price;
+              currentPriceAsDouble = num.tryParse( currentPriceAsString )!.toDouble();
               return Flex(
                 direction: Axis.vertical,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +131,7 @@ class _DetailsState extends State<Details> {
                       ),
                     ),
                     const Divider(height: 20),
-                    const PriceChart(),
+                    PriceChart( currentPriceAsDouble ),
                     const Divider(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

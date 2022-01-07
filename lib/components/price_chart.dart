@@ -10,7 +10,11 @@ class _LineChartGradientColor {
 
   class PriceChart extends StatelessWidget {
 
-  const PriceChart( {Key? key} ) : super( key: key );
+  double price = 0.0;
+
+  PriceChart( double price, {Key? key} ) : super(key: key);
+
+  double get currentPrice => price;
 
   @override
   Widget build( BuildContext context ) {
@@ -47,12 +51,14 @@ class _LineChartGradientColor {
               fontSize: 16),
           getTitles: (value) {
             switch (value.toInt()) {
-              case 2:
-                return 'NOV';
-                case 5:
-                  return 'DEC';
-                  case 8:
-                    return 'JAN';
+              case 3:
+                return 'OCT';
+                case 6:
+                  return 'NOV';
+                  case 9:
+                    return 'DEC';
+                    case 12:
+                      return 'JAN';
             }
             return '';
             },
@@ -85,19 +91,27 @@ class _LineChartGradientColor {
           show: true,
           border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
-      maxX: 11,
+      maxX: 14,
       minY: 0,
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
+          spots: [
+            FlSpot(0, currentPrice * 2 ),
+            FlSpot(1, currentPrice * 2.2 ),
+            FlSpot(2, currentPrice * 1.5),
+            FlSpot(3, 3.1),
+            FlSpot(4, 4),
+            FlSpot(5, 3),
+            FlSpot(6, 4),
+            FlSpot(7, 4),
             FlSpot(8, 4),
-            FlSpot(9.5, 3),
+            FlSpot(9, 4),
+            FlSpot(10, 4),
             FlSpot(11, 4),
+            FlSpot(12, 4),
+            FlSpot(13, 4),
+
           ],
           isCurved: true,
           colors: _LineChartGradientColor().gradientColors,
