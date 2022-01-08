@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:coindart/components/drawer_menu.dart';
+import 'package:coindart/components/menu/drawer_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

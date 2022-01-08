@@ -15,7 +15,6 @@ class DrawerMenu extends StatelessWidget {
   Widget build( BuildContext context ) {
     User? firebaseUser = FirebaseAuth.instance.currentUser;
     return Drawer(
-
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -36,6 +35,20 @@ class DrawerMenu extends StatelessWidget {
               Navigator.pushNamed( context, "/coindart" );
               },
           ),
+            Visibility(
+              child: ListTile(
+                leading: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                title: const Text('Access User Profile'),
+                tileColor: Colors.deepPurpleAccent,
+                onTap: () async {
+                  Navigator.pushNamed( context, "/profile" );
+                },
+              ),
+              visible: (firebaseUser == null ? false : true),
+            ),
           Visibility(
             child: ListTile(
               leading: const Icon(

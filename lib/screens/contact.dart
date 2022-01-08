@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coindart/components/drawer_menu.dart';
+import 'package:coindart/components/menu/drawer_menu.dart';
 import "package:flutter/material.dart";
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;

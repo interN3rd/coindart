@@ -1,4 +1,4 @@
-import 'package:coindart/components/drawer_menu.dart';
+import 'package:coindart/components/menu/drawer_menu.dart';
 import 'package:coindart/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

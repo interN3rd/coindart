@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coindart/components/price_chart.dart';
+import 'package:coindart/components/widget_snippets/price_chart.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:coindart/components/drawer_menu.dart';
+import 'package:coindart/components/menu/drawer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';

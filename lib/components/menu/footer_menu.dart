@@ -8,7 +8,7 @@ class FooterMenu extends StatelessWidget {
   Widget build( BuildContext context ) {
 
     return Row(
-
+      key: const ValueKey("footer menu"),
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget> [
         TextButton(

@@ -1,15 +1,15 @@
-import 'package:coindart/components/greeting_text.dart';
-import 'package:coindart/components/invisible_widget.dart';
-import 'package:coindart/components/logged_in_text.dart';
-import 'package:coindart/components/login_button.dart';
-import 'package:coindart/components/register_button.dart';
+import 'package:coindart/components/text_snippets/greeting_text.dart';
+import 'package:coindart/components/gimmickry/invisible_widget.dart';
+import 'package:coindart/components/text_snippets/logged_in_text.dart';
+import 'package:coindart/components/button/login_button.dart';
+import 'package:coindart/components/button/register_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import '../config/routes/routes.dart';
 import 'package:coindart/config/themes/coindart_theme.dart';
 import 'package:coindart/constants/app_constants.dart';
-import 'package:coindart/components/drawer_menu.dart';
-import 'package:coindart/components/footer_menu.dart';
+import 'package:coindart/components/menu/drawer_menu.dart';
+import 'package:coindart/components/menu/footer_menu.dart';
 
 class Coindart extends StatefulWidget {
 

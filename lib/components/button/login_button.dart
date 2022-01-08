@@ -7,6 +7,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build( BuildContext context ) {
     return ElevatedButton(
+      key: const ValueKey("loginButton"),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple),
         fixedSize: MaterialStateProperty.all(const Size(double.maxFinite, 40)),

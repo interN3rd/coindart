@@ -4,7 +4,7 @@ import 'package:coindart/screens/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'loginsignupbutton.dart';
+import '../button/loginsignupbutton.dart';
 
 class LoginForm extends StatefulWidget {
 
