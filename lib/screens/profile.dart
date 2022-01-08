@@ -85,7 +85,7 @@ class _ProfileState extends State<Profile> {
                   const Hero(
                     tag: '1',
                     child: Text(
-                      "Balance",
+                      "Fiat Balance",
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                           fontSize: 21,
@@ -135,7 +135,7 @@ class _ProfileState extends State<Profile> {
                   const Hero(
                     tag: '2',
                     child: Text(
-                      "Coins in possession",
+                      "Coins in wallet",
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                           fontSize: 21,
@@ -181,7 +181,7 @@ class _ProfileState extends State<Profile> {
                           },
                         );
                       } else if(snapshot.hasError) {
-                        return Text( '${snapshot.error}');
+                        return const Text( "Currently you do not own any crypto. Trading is available, invest now.");
                       }
                       return const Center( child: CircularProgressIndicator() );
                     },
