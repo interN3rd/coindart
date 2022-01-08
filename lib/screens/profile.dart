@@ -3,6 +3,8 @@ import 'package:coindart/components/menu/drawer_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'details.dart';
+
 User? user = FirebaseAuth.instance.currentUser;
 
 Future<double> fetchUserCredit() async {
@@ -18,6 +20,28 @@ Future<double> fetchUserCredit() async {
   }
 }
 
+Future<List<Coin>> fetchUserCoins() async {
+
+  var collection = FirebaseFirestore.instance.collection("user/" + user!.uid + "/coins");
+  List<Coin> coins = [];
+
+  await collection.get().then((snapshot) {
+    for (var doc in snapshot.docs) {
+      coins.add(Coin(id: doc.data()['id'], name: doc.id, amount: doc.data()['amount']));
+    }
+  });
+
+  return coins;
+}
+
+class Coin {
+  final num id;
+  final String name;
+  final num amount;
+
+  Coin({required this.id, required this.name, required this.amount});
+}
+
 class Profile extends StatefulWidget {
 
   const Profile({Key? key}) : super(key: key);
@@ -30,11 +54,13 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
   Future<double>? balance;
+  Future<List<Coin>>? coins;
 
   @override
   void initState() {
     super.initState();
     balance = fetchUserCredit();
+    coins = fetchUserCoins();
   }
 
   @override
@@ -118,12 +144,54 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
+                  FutureBuilder<List<Coin>>(
+                    future: coins,
+                    builder: (context, snapshot ) {
+                      if(snapshot.hasData){
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: ( context, index ) {
+                            return ListTile(
+                                title:
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                        child: GestureDetector(
+                                            child: Text( snapshot.data!.elementAt(index).name ),
+                                            onTap: () async {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => Details(
+                                                      coinId: snapshot.data!.elementAt(index).id.toString(),
+                                                      coinName: snapshot.data!.elementAt(index).name,
+                                                    )
+                                                ),
+                                              );
+                                            }
+                                        )
+                                    ),
+                                    SizedBox(child: Text( snapshot.data!.elementAt(index).amount.toString(), textAlign: TextAlign.right), width: 80),
+                                  ],
+                                )
+                            );
+                          },
+                        );
+                      } else if(snapshot.hasError) {
+                        return Text( '${snapshot.error}');
+                      }
+                      return const Center( child: CircularProgressIndicator() );
+                    },
+                  )
                 ],
               );
             } else if ( snapshot.hasError) {
               return Text( '${snapshot.error}');
             }
-            return const Center( child: CircularProgressIndicator(),);
+            return const Center( child: CircularProgressIndicator() );
           },
         ),
       ),

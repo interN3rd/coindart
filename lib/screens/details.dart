@@ -62,7 +62,7 @@ Future<double> fetchUserCredit() async {
   }
 }
 
-Future<bool> buyCoin(double newCredit, String coinName) async {
+Future<bool> buyCoin(double newCredit, String coinName, num coinId) async {
 
   var collection = FirebaseFirestore.instance.collection("user/" + user!.uid + "/coins");
   var docSnapshot = await collection.doc(coinName).get();
@@ -72,10 +72,11 @@ Future<bool> buyCoin(double newCredit, String coinName) async {
     num currentAmount = data?['amount'];
     collection.doc(coinName).set({
       "amount": currentAmount + 1,
-    });
+    }, SetOptions(merge: true));
   } else {
     collection.doc(coinName).set({
       "amount": 1,
+      "id" : coinId
     });
   }
 
@@ -98,7 +99,7 @@ Future<bool> sellCoin(double newCredit, String coinName) async {
     num newAmount = currentAmount - 1;
     collection.doc(coinName).set({
       "amount": newAmount,
-    });
+    }, SetOptions(merge: true));
     if(newAmount < 1) {
       await FirebaseFirestore.instance.runTransaction((Transaction delTrans) async {
         delTrans.delete(collection.doc(coinName));
@@ -210,7 +211,7 @@ class _DetailsState extends State<Details> {
                                 );
                               } else {
                                 double newCredit = (userCredit - coinPrice);
-                                bool coinBought = await buyCoin(newCredit, snapshot.data!.name);
+                                bool coinBought = await buyCoin(newCredit, snapshot.data!.name, snapshot.data!.id);
                                 if(coinBought) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text("You successfully purchased 1 " + snapshot.data!.name + "!"), backgroundColor: Colors.green)
