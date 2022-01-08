@@ -22,7 +22,7 @@ class FormSubject {
 
 class _ContactState extends State<Contact> {
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   String name = '';
   String email = '';
   String message = '';
@@ -59,7 +59,7 @@ class _ContactState extends State<Contact> {
 
       body: SingleChildScrollView(
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(30),
             child: Column(
@@ -72,9 +72,10 @@ class _ContactState extends State<Contact> {
                     name = value;
                   },
                   validator: (value) {
-                    if( value!.isEmpty) {
+                    if( value == null || value.isEmpty || value.length < 2 ) {
                       return "Please provide us your name";
                     }
+                    return null;
                   },
                   decoration: const InputDecoration(
                     labelText: 'Please enter your name',
@@ -89,7 +90,7 @@ class _ContactState extends State<Contact> {
                     email = value;
                   },
                   validator: (value) {
-                    if( value!.isEmpty) {
+                    if( value!.isEmpty || !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
                       return "Please provide us your e-mail";
                     }
                   },
@@ -113,7 +114,7 @@ class _ContactState extends State<Contact> {
                     message = value;
                   },
                   validator: (value) {
-                    if( value!.isEmpty) {
+                    if( value == null || value.isEmpty || value.length < 2 ) {
                       return "Please enter a message";
                     }
                   },
@@ -131,7 +132,7 @@ class _ContactState extends State<Contact> {
                           primary: Colors.redAccent,
                           textStyle: const TextStyle(color: Colors.white)),
                       onPressed: () {
-                        formKey.currentState!.reset();
+                        _formKey.currentState!.reset();
                       },
                       child: const Text('Delete input'),
                     ),
@@ -141,20 +142,35 @@ class _ContactState extends State<Contact> {
                           primary: Colors.deepPurple,
                           textStyle: const TextStyle(color: Colors.white)),
                       onPressed: () {
-                        submitForm();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            backgroundColor: Colors.blueGrey,
-                            content: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                  "We have received your message. We will get to you soon."
+                        if( _formKey.currentState!.validate() ) {
+                          submitForm();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                      "We have received your message. We will get to you soon."
+                                  ),
+                                ),
+                                duration: Duration(seconds: 5),
                               ),
+                          );
+                          _formKey.currentState!.reset();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                    "We could not validate your input. Please try again."
+                                ),
+                              ),
+                              duration: Duration(seconds: 5),
                             ),
-                            duration: Duration(seconds: 5),
-                          ),
-                        );
-                        formKey.currentState!.reset();
+                          );
+                        }
                       },
                       child: const Text('Submit'),
                     ),
