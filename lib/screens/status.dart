@@ -4,13 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+// healthCheck to provide unauthenticated users information about
+// operational status of coinmarketcap api
 Future<bool> healthCheck() async {
-  // healthCheck to provide unauthenticated user information about
-  // operational status of coinmarketcap api
+
   // API-URL and API-Key
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=1';
   final Map<String, String> tokenData = {
-    "X-CMC_PRO_API_KEY": "8836be1d-8855-43d4-8689-3e9f9f0911c7",
+    "X-CMC_PRO_API_KEY": "195a8398-cf16-44bd-8e63-cf59d9670dfa",
   };
 
   // API-Call
@@ -47,12 +48,12 @@ class _StatusState extends State<Status> {
   Widget build(BuildContext context) {
 
     User? firebaseUser = FirebaseAuth.instance.currentUser;
-    var email;
+    String? email;
 
     String authStatus;
     if( firebaseUser != null ) {
       email = firebaseUser.email;
-      authStatus = "You signed in with your email " + email + " and you are an authenticated user.";
+      authStatus = "You signed in with your email " + email! + " and you are an authenticated user.";
     } else {
       authStatus = AppConstants.loggedOut;
     }
@@ -106,6 +107,9 @@ class _StatusState extends State<Status> {
                   )
               ),
               FutureBuilder<bool>(
+                // depending on the return value of healthCheck() a notification
+                // is displayed that informs the user about the API's
+                // operational status
                 future: futureData,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -125,7 +129,7 @@ class _StatusState extends State<Status> {
             ],
         ),
       ),
-      drawer: DrawerMenu(),
+      drawer: const DrawerMenu(),
     );
   }
 }

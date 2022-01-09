@@ -48,7 +48,7 @@ class Imprint extends StatelessWidget {
           ],
         ),
       ),
-      drawer: DrawerMenu(),
+      drawer: const DrawerMenu(),
     );
   }
 }

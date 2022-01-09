@@ -30,6 +30,8 @@ class _CoindartState extends State<Coindart> {
   @override
   Widget build( BuildContext context ) {
 
+    // firebaseUser is used to determine the user's authentication status
+    // based on the user's authentication status different content is displayed
     User? firebaseUser = FirebaseAuth.instance.currentUser;
 
     return MaterialApp(

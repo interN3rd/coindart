@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+// DrawerMenu represents a burger menu that also displays different content
+// based on the user's authentication status
 class DrawerMenu extends StatelessWidget {
 
   const DrawerMenu({Key? key}) : super(key: key);
@@ -24,31 +26,34 @@ class DrawerMenu extends StatelessWidget {
             ),
             child: Text('Menu'),
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.home_filled,
-              color: Colors.white,
-            ),
-            title: const Text('Home'),
-            tileColor: Colors.deepPurpleAccent,
-            onTap: () {
-              Navigator.pushNamed( context, "/coindart" );
-              },
-          ),
-            Visibility(
-              child: ListTile(
-                leading: const Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                title: const Text('Access User Profile'),
-                tileColor: Colors.deepPurpleAccent,
-                onTap: () async {
-                  Navigator.pushNamed( context, "/profile" );
-                },
+          Visibility(
+            child: ListTile(
+              leading: const Icon(
+                Icons.home_filled,
+                color: Colors.white,
               ),
-              visible: (firebaseUser == null ? false : true),
+              title: const Text('Home'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () {
+                Navigator.pushNamed( context, "/coindart" );
+              },
             ),
+            visible: (firebaseUser == null ? true : false),
+          ),
+          Visibility(
+            child: ListTile(
+              leading: const Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              title: const Text('Access User Profile'),
+              tileColor: Colors.deepPurpleAccent,
+              onTap: () async {
+                Navigator.pushNamed( context, "/profile" );
+              },
+            ),
+            visible: (firebaseUser == null ? false : true),
+          ),
           Visibility(
             child: ListTile(
               leading: const Icon(
@@ -58,7 +63,7 @@ class DrawerMenu extends StatelessWidget {
               title: const Text('List of coins'),
               tileColor: Colors.deepPurpleAccent,
               onTap: () async {
-              Navigator.pushNamed( context, "/coinlist" );
+                Navigator.pushNamed( context, "/coinlist" );
               },
             ),
             visible: (firebaseUser == null ? false : true),
@@ -88,17 +93,17 @@ class DrawerMenu extends StatelessWidget {
               firebaseUser == null ? Navigator.pushNamed( context, "/login" ) : await _signOut().then(Navigator.pushNamed( context, "/login" ));
               },
           ),
-            ListTile(
-              leading: const Icon(
-                Icons.contact_mail,
-                color: Colors.white,
-              ),
-              title: const Text('Contact'),
-              tileColor: Colors.deepPurpleAccent,
-              onTap: () {
-                Navigator.pushNamed( context, "/contact" );
-              },
+          ListTile(
+            leading: const Icon(
+              Icons.contact_mail,
+              color: Colors.white,
             ),
+            title: const Text('Contact'),
+            tileColor: Colors.deepPurpleAccent,
+            onTap: () {
+              Navigator.pushNamed( context, "/contact" );
+              },
+          ),
           ListTile(
             leading: const Icon(
               Icons.business,
@@ -108,7 +113,7 @@ class DrawerMenu extends StatelessWidget {
             tileColor: Colors.deepPurpleAccent,
             onTap: () {
               Navigator.pushNamed( context, "/imprint" );
-              },
+            },
           ),
           ListTile(
             leading: const Icon(
@@ -119,7 +124,7 @@ class DrawerMenu extends StatelessWidget {
             tileColor: Colors.deepPurpleAccent,
             onTap: () {
               Navigator.pushNamed( context, "/status" );
-              },
+            },
           ),
           ListTile(
             leading: const Icon(
@@ -129,10 +134,10 @@ class DrawerMenu extends StatelessWidget {
             tileColor: Colors.deepPurple,
             onTap: () {
               Navigator.pop( context );
-              },
+            },
           ),
-        ],
-      ),
+          ],
+        ),
     );
   }
 }

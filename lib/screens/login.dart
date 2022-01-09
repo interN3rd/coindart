@@ -22,6 +22,8 @@ class _LoginState extends State<Login> {
   final _auth = FirebaseAuth.instance;
   String email = '';
   String password = '';
+
+  // if some content takes an unusual amount of time, a loading indicator is displayed
   bool isloading = false;
 
   @override
@@ -64,7 +66,7 @@ class _LoginState extends State<Login> {
                           email = value;
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if ( value!.isEmpty || !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value) ) {
                             return "Please enter Email";
                           }
                         },

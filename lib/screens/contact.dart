@@ -28,6 +28,7 @@ class _ContactState extends State<Contact> {
   String message = '';
   List<String> subject = [];
   bool isSelected = false;
+
   final List<FormSubject> _chipsList = [
     FormSubject("Technical Support", false),
     FormSubject("Legal Inquiry", false),

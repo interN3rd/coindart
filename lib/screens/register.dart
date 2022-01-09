@@ -21,6 +21,8 @@ class _RegisterState extends State<Register> {
   final _auth = FirebaseAuth.instance;
   String email = "";
   String password = "";
+
+  // if some content takes an unusual amount of time, a loading indicator is displayed
   bool isLoading = false;
 
   @override
@@ -33,6 +35,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         title: const Text( "Register")
       ),
+
       body: isLoading ? const Center( child: CircularProgressIndicator() ) : Form(
         key: formKey,
         child: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -68,7 +71,7 @@ class _RegisterState extends State<Register> {
                         onChanged: ( value ) {
                           email = value.toString().trim();
                         },
-                        validator: (value) => (value!.isEmpty) ? "Please enter an email." : null,
+                        validator: (value) => ( value!.isEmpty || !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value) ) ? "Please enter an email." : null,
                         textAlign: TextAlign.center,
                         decoration: AppConstants.kTextFieldDecoration.copyWith(
                           hintText: "Enter your email.",
@@ -86,6 +89,12 @@ class _RegisterState extends State<Register> {
                         validator: ( value ) {
                           if( value!.isEmpty ) {
                             return "Please enter a Password.";
+                          }
+
+                          // password policy is implemented here:
+                          // Minimum eight characters, at least one letter and one number
+                          if( !RegExp( r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$").hasMatch( value ) ) {
+                            return "Please choose a more secure password.";
                           }
                         },
                         onChanged: ( value ) {
