@@ -7,6 +7,7 @@ import 'details.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
 
+// retrieves the current user credit (the money available) from the user database
 Future<double> fetchUserCredit() async {
 
   var collection = FirebaseFirestore.instance.collection('user');
@@ -20,6 +21,7 @@ Future<double> fetchUserCredit() async {
   }
 }
 
+// retrieves a list that contains coins which are held by a user
 Future<List<Coin>> fetchUserCoins() async {
 
   var collection = FirebaseFirestore.instance.collection("user/" + user!.uid + "/coins");
@@ -34,6 +36,8 @@ Future<List<Coin>> fetchUserCoins() async {
   return coins;
 }
 
+// Coin is the class that contains data of each individual cryptocurrency, which
+// is retrieved from firestore via fetchUserCoins()
 class Coin {
   final num id;
   final String name;
@@ -110,7 +114,7 @@ class _ProfileState extends State<Profile> {
                         )
                     ),
                     onPressed: () {
-
+                      // in a coming release of CoinDart, this is the place for credit card and banking APIs
                     },
                     child: const Text("Deposit money into your account"),
                   ),
@@ -121,14 +125,14 @@ class _ProfileState extends State<Profile> {
                         fixedSize: MaterialStateProperty.all(const Size(double.maxFinite, 40)),
                         shadowColor: MaterialStateProperty.all<Color>(Colors.black12),
                         shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            )
-                        )
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, "/coinlist");
-                      },
+                    },
                     child: const Text("Buy more crypto now"),
                   ),
                   const Divider( height: 30),
@@ -150,6 +154,7 @@ class _ProfileState extends State<Profile> {
                       if(snapshot.hasData){
                         return ListView.builder(
                           shrinkWrap: true,
+                          primary: false,
                           itemCount: snapshot.data!.length,
                           itemBuilder: ( context, index ) {
                             return ListTile(
@@ -158,6 +163,7 @@ class _ProfileState extends State<Profile> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    // if a user taps on the coin name, the user is redirected to the detail screen
                                     Expanded(
                                         child: GestureDetector(
                                             child: Text( snapshot.data!.elementAt(index).name ),

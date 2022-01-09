@@ -11,6 +11,7 @@ import 'details.dart';
 User? user = FirebaseAuth.instance.currentUser;
 CollectionReference favorites = FirebaseFirestore.instance.collection("user/" + user!.uid + "/favorites");
 
+// when a user registers a new account, the user is granted a credit of $10,000
 void generateUserEntry() async {
   var collection = FirebaseFirestore.instance.collection('user');
   var docSnapshot = await collection.doc(user!.uid).get();
@@ -22,12 +23,14 @@ void generateUserEntry() async {
   }
 }
 
+// fetchCoin() retrieves cryptocurrency data from the CoinMarketCap-API
+// data is saved in a list of Coin instances
 Future<List<Coin>> fetchCoin() async {
 
   // API-URL and API-Key
   const url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=20';
   final Map<String, String> tokenData = {
-    "X-CMC_PRO_API_KEY": "8836be1d-8855-43d4-8689-3e9f9f0911c7",
+    "X-CMC_PRO_API_KEY": "195a8398-cf16-44bd-8e63-cf59d9670dfa",
   };
 
   // API-Call
@@ -57,6 +60,8 @@ Future<List<Coin>> fetchCoin() async {
   }
 }
 
+// Coin is the class that contains data of each individual cryptocurrency, which
+// was retrieved from the CoinMarketCap-API via fetchCoin()
 class Coin {
   final num id;
   final String name;
@@ -167,7 +172,8 @@ class _CoinlistState extends State<Coinlist> {
                                     padding: const EdgeInsets.only(right: 20)
                                   )
                                 ),
-                                // Name, price and 24h price change
+                                // The following information are provided to the user: Name, price and 24h price change
+                                // if a user taps on the coin name, the user is redirected to the detail screen
                                 Expanded(
                                   child: GestureDetector(
                                     child: Text( snapshot.data!.elementAt(index).name ),
@@ -175,10 +181,11 @@ class _CoinlistState extends State<Coinlist> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
+                                          // coinId and coinName are passed to Details page to display coin specific data
                                           builder: (context) => Details(
                                             coinId: snapshot.data!.elementAt(index).id.toString(),
                                             coinName: snapshot.data!.elementAt(index).name,
-                                          )
+                                          ),
                                         ),
                                       );
                                     }

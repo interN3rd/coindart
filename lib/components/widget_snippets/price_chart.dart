@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class PriceChart extends StatefulWidget {
-  String coinSymbol = '';
-  double coinPrice = 0.0;
+
+  final String coinSymbol;
+  final double coinPrice;
 
   String get symbol => coinSymbol;
   double get price => coinPrice;
 
-  PriceChart(this.coinSymbol, this.coinPrice, {Key? key}) : super(key: key);
+  const PriceChart(this.coinSymbol, this.coinPrice, {Key? key}) : super(key: key);
 
 
   @override
@@ -59,6 +60,8 @@ class _PriceChartState extends State<PriceChart> {
     );
   }
 
+  // static data was created, because historic price data is not available in the
+  // basic CoinMarketCap API pricing plan
   List<ChartData> getChartData() {
     return <ChartData> [
       ChartData( x: DateTime( 2021, 12, 23) ),
@@ -160,7 +163,13 @@ class _PriceChartState extends State<PriceChart> {
           low: widget.price * 0.85,
           close: widget.price * 1.3),
       ChartData(
-          x: DateTime( 2022, 01, 08 ) ),
+          x: DateTime( 2022, 01, 08),
+          open: widget.price * 1.3,
+          high: widget.price * 1.7,
+          low: widget.price * 1.3,
+          close: widget.price * 1.4),
+      ChartData(
+          x: DateTime( 2022, 01, 09 ) ),
     ];
   }
 }

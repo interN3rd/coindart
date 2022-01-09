@@ -8,16 +8,24 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
 User? user = FirebaseAuth.instance.currentUser;
+// the value of "noData" is displayed, when the coinmarket api does not provide data
 String noData = "[No Data available]";
 
+
+// fetchCoinData() is called with a specific coinId to request coin specific data from the CoinMarketCap-API
+// data is saved in a Coin object
+// param "coinId": is provided by every route that leads to this page
 Future<Coin> fetchCoinData(final String coinId) async {
 
-  // API-URL and API-Key
+  // API URLs
+  // API endpoint "info" provides meta data like a coinname, a coin id
   String urlInfo = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?id=' + coinId;
+  // API endpoint "quotes" provides specific data like the current price of a crypto currency
   String urlQuotes = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?id=' + coinId;
 
+  // API key
   final Map<String, String> tokenData = {
-    "X-CMC_PRO_API_KEY": "8836be1d-8855-43d4-8689-3e9f9f0911c7",
+    "X-CMC_PRO_API_KEY": "195a8398-cf16-44bd-8e63-cf59d9670dfa",
   };
 
   // API-Call
@@ -29,6 +37,7 @@ Future<Coin> fetchCoinData(final String coinId) async {
     final dynamic jsonInfo = jsonDecode(responseInfo.body)['data'][coinId];
     final dynamic jsonQuotes = jsonDecode(responseQuotes.body)['data'][coinId];
 
+    // data from both API endpoints are written into one Coin object
     return Coin(
         id: jsonInfo['id'],
         name: (jsonInfo['name'] == null) ? noData : jsonInfo['name'],
@@ -49,6 +58,7 @@ Future<Coin> fetchCoinData(final String coinId) async {
   }
 }
 
+// retrieves the current user credit (the money available) from the user database
 Future<double> fetchUserCredit() async {
 
   var collection = FirebaseFirestore.instance.collection('user');
@@ -62,6 +72,10 @@ Future<double> fetchUserCredit() async {
   }
 }
 
+// process of buying: the amount of coins held is incremented by one
+// the user credit is reduced by the current coin price
+// param "newCredit": The math of reducing the user's balance is already done at
+// this point to reduce number of api calls.
 Future<bool> buyCoin(double newCredit, String coinName, num coinId) async {
 
   var collection = FirebaseFirestore.instance.collection("user/" + user!.uid + "/coins");
@@ -88,6 +102,7 @@ Future<bool> buyCoin(double newCredit, String coinName, num coinId) async {
   return true;
 }
 
+// sellCoin() works like buyCoin()
 Future<bool> sellCoin(double newCredit, String coinName) async {
 
   var collection = FirebaseFirestore.instance.collection("user/" + user!.uid + "/coins");
@@ -100,6 +115,7 @@ Future<bool> sellCoin(double newCredit, String coinName) async {
     collection.doc(coinName).set({
       "amount": newAmount,
     }, SetOptions(merge: true));
+    // entry in firestore is deleted when a user reduces a coin's holding to 0
     if(newAmount < 1) {
       await FirebaseFirestore.instance.runTransaction((Transaction delTrans) async {
         delTrans.delete(collection.doc(coinName));
@@ -120,6 +136,8 @@ Future<bool> sellCoin(double newCredit, String coinName) async {
   return true;
 }
 
+// Coin is the class that contains data of the cryptocurrency, which
+// was retrieved from the CoinMarketCap-API via fetchCoinData()
 class Coin {
   num id;
   String name;
@@ -170,6 +188,7 @@ class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
 
+    // variables that are used for the price chart
     String currentPriceAsString = '';
     double currentPriceAsDouble = 0;
 
@@ -195,6 +214,7 @@ class _DetailsState extends State<Details> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        // buying button
                         SizedBox(
                           width: 100,
                           height: 34,
@@ -232,6 +252,7 @@ class _DetailsState extends State<Details> {
                           ),
                         ),
                         const SizedBox(width: 20),
+                        // selling button
                         SizedBox(
                           width: 100,
                           height: 34,
