@@ -41,7 +41,12 @@ class _CoindartState extends State<Coindart> {
         home: Builder(
             builder: (context) => Scaffold(
                 appBar: AppBar(
-                    title: const Text( AppConstants.appTitle )
+                    title: const FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text(
+                        AppConstants.appTitle,
+                      ),
+                    ),
                 ),
                 body: Container(
                     padding: const EdgeInsets.all( 30 ),
