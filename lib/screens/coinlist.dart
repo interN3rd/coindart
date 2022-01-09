@@ -11,6 +11,17 @@ import 'details.dart';
 User? user = FirebaseAuth.instance.currentUser;
 CollectionReference favorites = FirebaseFirestore.instance.collection("user/" + user!.uid + "/favorites");
 
+void generateUserEntry() async {
+  var collection = FirebaseFirestore.instance.collection('user');
+  var docSnapshot = await collection.doc(user!.uid).get();
+
+  if(!docSnapshot.exists) {
+    collection.doc(user!.uid).set({
+      "credit": 10000,
+    });
+  }
+}
+
 Future<List<Coin>> fetchCoin() async {
 
   // API-URL and API-Key
@@ -87,6 +98,7 @@ class _CoinlistState extends State<Coinlist> {
   @override
   void initState() {
     super.initState();
+    generateUserEntry();
     futureData = fetchCoin();
   }
 
