@@ -1,4 +1,5 @@
 import 'package:coindart/components/menu/drawer_menu.dart';
+import 'package:coindart/screens/login.dart';
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import 'package:firebase_auth/firebase_auth.dart';
@@ -154,6 +155,36 @@ class _RegisterState extends State<Register> {
                           }
                           },
                       ),
+                      const SizedBox(height: 30),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const Login(),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: const [
+                            Text(
+                              "Already have an account?",
+                              style: TextStyle(
+                                  fontSize: 20, color: Colors.deepPurpleAccent),
+                            ),
+                            SizedBox(width: 10),
+                            Hero(
+                              tag: '10',
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepPurpleAccent),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
